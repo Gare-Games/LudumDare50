@@ -4,9 +4,6 @@
 #include "raylib.h"
 #include "garegames.h"
 #include "colors.h"
-#include <cmath>
-
-using namespace std;
 
 class Bullet {
 	public:

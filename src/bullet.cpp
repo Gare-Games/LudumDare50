@@ -9,7 +9,7 @@ Bullet::Bullet(Vector2 startPosition, Direction targetDirection)
 	width = 5;
 	height = 5;
 	speed = 5.0f;
-	diagnolSpeed = sqrt((speed*speed) / 2);
+	diagnolSpeed = GareGames::ConvertToDiagnol(speed);
 }
 
 void Bullet::Update(float frameTime)

@@ -19,8 +19,8 @@
 
 // Initialization
 //--------------------------------------------------------------------------------------
-int screenWidth = 1920;
-int screenHeight = 1080;
+int screenWidth = 800;
+int screenHeight = 600;
 
 Camera2D screenSpaceCamera; // Smoothing camera
 
@@ -62,7 +62,8 @@ void Initialize()
     // Initialization
     //--------------------------------------------------------------------------------------
 
-	SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+	// Set this later if you want resizable windows. Will probably break the game.
+	//SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "Smash the Swarm!");
 
 	// Load Textures
@@ -99,12 +100,12 @@ int main(void)
 
         // Update
         //----------------------------------------------------------------------------------
-		if (IsWindowResized() && !IsWindowFullscreen())
-		{
-			screenWidth = GetScreenWidth();
-			screenHeight = GetScreenHeight();
-			screenSpaceCamera.offset = (Vector2) { screenWidth/2.0f, screenHeight/2.0f };
-		}
+		//if (IsWindowResized() && !IsWindowFullscreen())
+		//{
+		//	screenWidth = GetScreenWidth();
+		//	screenHeight = GetScreenHeight();
+		//	screenSpaceCamera.offset = (Vector2) { screenWidth/2.0f, screenHeight/2.0f };
+		//}
 
 		Mouse::Update();
 		player->currentWeapon->Update(thisFrameTime);
@@ -222,9 +223,9 @@ int main(void)
 			// Gui on top of screen
 			// Maybe draw to texture?
 			DrawRectangle(0,0, screenWidth, 60, DB32_BLACK);
-			GareGames::DrawTextureRect(TextureList::textureMap["bottomUIFill1"], 0, screenHeight - 200, screenWidth, 200, DB32_WHITE);
-			GareGames::DrawTextureRect(TextureList::textureMap["bottomUILSide"], 0, screenHeight - 200, 15, 200, DB32_WHITE);
-			GareGames::DrawTextureRect(TextureList::textureMap["bottomUIRSide"], screenWidth - 15, screenHeight - 200, 15, 200, DB32_WHITE);
+			GareGames::DrawTextureRect(TextureList::textureMap["bottomUIFill1"], 0, 0, screenWidth, 100, DB32_WHITE);
+			GareGames::DrawTextureRect(TextureList::textureMap["bottomUILSide"], 0, 0, 15, 100, DB32_WHITE);
+			GareGames::DrawTextureRect(TextureList::textureMap["bottomUIRSide"], screenWidth - 15, 0, 15, 100, DB32_WHITE);
 
 
 			//Draw you windows here.

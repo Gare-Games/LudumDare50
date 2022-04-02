@@ -22,14 +22,11 @@ void Pistol::Trigger()
 		Bullet* bullet = new Bullet({player->position.x, player->position.y}, player->shootDirection);
 
 		BulletList::AddBullet(bullet);
-		TraceLog(LOG_INFO, TextFormat("BULLET MADE!"));
 	}
 }
 void Pistol::Update(float frameTime)
 {
 	shotTimer = max(0.0f, shotTimer-frameTime);
-	if (shotTimer > 0.0f)
-		TraceLog(LOG_INFO, TextFormat("ShotTimer: %f", shotTimer));
 }
 void Pistol::DrawWeapon()
 {

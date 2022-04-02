@@ -1,6 +1,9 @@
 #include "garegames.h"
 
-
+float GareGames::ConvertToDiagnol(float speed)
+{
+	return sqrt((speed*speed) / 2);
+}
 
 // This draws the texture and repeats it as many times as you want.
 void GareGames::DrawTextureRect(Texture2D texture, Vector2 position, int width, int height, Color tint)
