@@ -9,6 +9,8 @@
 #include "garegames.h"
 #include "collision.h"
 #include "colors.h"
+#include "weapon.h"
+#include "pistol.h"
 
 #define GL_SRC_ALPHA 0x0302
 #define GL_MIN 0x8007
@@ -30,6 +32,7 @@ RenderTexture2D fogOfWarTexture;
 Player* player;
 
 bool bLeftMouseLast = false;
+bool bDebug = true;
 int mouseXLast = -1;
 int mouseYLast = -1;
 
@@ -38,6 +41,9 @@ int moveToY = 0;
 
 int GetMouseWorldX();
 int GetMouseWorldY();
+
+float thisFrameTime = 0.0f;
+float lastFrameTime = 0.0f;
 
 
 int GetMouseWorldX()
@@ -72,6 +78,7 @@ void Initialize()
 	player = new Player();
 	player->position.x = 350;
 	player->position.y = 640;
+	player->currentWeapon = new Pistol(player);
 }
 
 int main(void)
@@ -82,6 +89,9 @@ int main(void)
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
+		lastFrameTime = thisFrameTime;
+		thisFrameTime = GetFrameTime();
+		TraceLog(LOG_INFO, TextFormat("Last: %f This: %f", lastFrameTime, thisFrameTime));
 		//Reset shoot directions every update.
 		player->shootUp = false;
 		player->shootLeft = false;
@@ -91,6 +101,16 @@ int main(void)
 		player->shootUpRight = false; 
 		player->shootDownLeft = false; 
 		player->shootDownRight = false; 
+
+		//Move direction every update.
+		player->moveUp = false;
+		player->moveLeft = false;
+		player->moveRight = false;
+		player->moveDown = false;
+		player->moveUpLeft = false; 
+		player->moveUpRight = false; 
+		player->moveDownLeft = false; 
+		player->moveDownRight = false; 
 
         // Update
         //----------------------------------------------------------------------------------
@@ -136,6 +156,7 @@ int main(void)
 		if (IsKeyDown(KEY_A)) player->position.x--;
 		if (IsKeyDown(KEY_S)) player->position.y++;
 		if (IsKeyDown(KEY_D)) player->position.x++;
+		if (IsKeyPressed(KEY_F)) bDebug = !bDebug;
 
 		// Shoot Direction
 		if (IsKeyDown(KEY_DOWN) && IsKeyDown(KEY_RIGHT)) player->shootDownRight = true;
@@ -165,14 +186,17 @@ int main(void)
 
 
 				//Draw a debug dot to represent shoot direction.
-				if (player->shootUp) DrawRectangle(player->position.x, player->position.y - 30, 3, 3, DB32_GREEN);
-				if (player->shootDown) DrawRectangle(player->position.x, player->position.y + 30, 3, 3, DB32_GREEN);
-				if (player->shootDownLeft) DrawRectangle(player->position.x-30, player->position.y + 30, 4, 5, DB32_GREEN);
-				if (player->shootDownRight) DrawRectangle(player->position.x+30, player->position.y + 30, 3, 5, DB32_GREEN);
-				if (player->shootUpLeft) DrawRectangle(player->position.x-30, player->position.y - 30, 3, 3, DB32_GREEN);
-				if (player->shootUpRight) DrawRectangle(player->position.x+30, player->position.y - 30, 3, 3, DB32_GREEN);
-				if (player->shootLeft) DrawRectangle(player->position.x-30, player->position.y, 3, 3, DB32_GREEN);
-				if (player->shootRight) DrawRectangle(player->position.x+30, player->position.y, 3, 3, DB32_GREEN);
+				if (bDebug)
+				{
+					if (player->shootUp) DrawRectangle(player->position.x, player->position.y - 30, 3, 3, DB32_GREEN);
+					if (player->shootDown) DrawRectangle(player->position.x, player->position.y + 30, 3, 3, DB32_GREEN);
+					if (player->shootDownLeft) DrawRectangle(player->position.x-30, player->position.y + 30, 4, 5, DB32_GREEN);
+					if (player->shootDownRight) DrawRectangle(player->position.x+30, player->position.y + 30, 3, 5, DB32_GREEN);
+					if (player->shootUpLeft) DrawRectangle(player->position.x-30, player->position.y - 30, 3, 3, DB32_GREEN);
+					if (player->shootUpRight) DrawRectangle(player->position.x+30, player->position.y - 30, 3, 3, DB32_GREEN);
+					if (player->shootLeft) DrawRectangle(player->position.x-30, player->position.y, 3, 3, DB32_GREEN);
+					if (player->shootRight) DrawRectangle(player->position.x+30, player->position.y, 3, 3, DB32_GREEN);
+				}
             EndMode2D();
 
 
