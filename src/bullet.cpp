@@ -16,6 +16,7 @@ void Bullet::Update(float frameTime)
 {
 	lastPosition.x = position.x;
 	lastPosition.y = position.y;
+	
 
 	if (direction == Direction::UP)
 	{

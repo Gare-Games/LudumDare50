@@ -79,8 +79,7 @@ void Initialize()
     SetTargetFPS(60);
     //--------------------------------------------------------------------------------------
 	player = new Player();
-	player->position.x = 350;
-	player->position.y = 640;
+	player->position = (Vector2) { screenWidth/2.0f, screenHeight/2.0f };
 	player->currentWeapon = new Pistol(player);
 	player->shootDirection = Direction::DOWN;
 	player->moveDirection = Direction::DOWN;
@@ -126,8 +125,8 @@ int main(void)
 			TraceLog(LOG_INFO, TextFormat("Zoom: %i", screenSpaceCamera.zoom));
 		}
 
-		screenSpaceCamera.target.x = player->position.x;
-		screenSpaceCamera.target.y = player->position.y;
+		//screenSpaceCamera.target.x = player->position.x;
+		//screenSpaceCamera.target.y = player->position.y;
 
 		//Update your windows.
 		if (Dialog::IsDialogActive())
@@ -144,11 +143,21 @@ int main(void)
 
 		// Better have an in order list of what occurs.
 		// Keyboard Controls
-		if (IsKeyDown(KEY_W)) player->position.y--;
-		if (IsKeyDown(KEY_A)) player->position.x--;
-		if (IsKeyDown(KEY_S)) player->position.y++;
-		if (IsKeyDown(KEY_D)) player->position.x++;
 		if (IsKeyPressed(KEY_F)) bDebug = !bDebug;
+
+		// Move Direction
+		if (IsKeyDown(KEY_S) || IsKeyDown(KEY_W) || IsKeyDown(KEY_A) || IsKeyDown(KEY_D))
+		{
+			if (IsKeyDown(KEY_S) && IsKeyDown(KEY_D)) player->moveDirection = Direction::DOWNRIGHT;
+			else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_A)) player->moveDirection = Direction::DOWNLEFT;
+			else if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D)) player->moveDirection = Direction::UPRIGHT;
+			else if (IsKeyDown(KEY_W) && IsKeyDown(KEY_A)) player->moveDirection = Direction::UPLEFT;
+			else if (IsKeyDown(KEY_W)) player->moveDirection = Direction::UP;
+			else if (IsKeyDown(KEY_A)) player->moveDirection = Direction::LEFT;
+			else if (IsKeyDown(KEY_S)) player->moveDirection = Direction::DOWN;
+			else if (IsKeyDown(KEY_D)) player->moveDirection = Direction::RIGHT;
+			player->Move();
+		}
 
 		// Shoot Direction
 		if (IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_UP) || IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_RIGHT))
@@ -174,10 +183,10 @@ int main(void)
 			// Draw what you can see.
 
             BeginMode2D(screenSpaceCamera);
-				DrawRectangle(350,640, 50, 60, DB32_RED);
-				DrawRectangle(550,540, 50, 60, DB32_RED);
-				DrawRectangle(450,440, 50, 60, DB32_RED);
-				DrawRectangle(350,540, 50, 60, DB32_RED);
+				DrawRectangle(50,140, 50, 60, DB32_RED);
+				DrawRectangle(50,40, 50, 60, DB32_RED);
+				DrawRectangle(150,140, 50, 60, DB32_RED);
+				DrawRectangle(150,40, 50, 60, DB32_RED);
 				player->DrawPlayer();
 
 
@@ -234,7 +243,6 @@ int main(void)
 				Dialog::GetActiveDialog()->DrawDialog();
 			}
 			
-            DrawText(TextFormat("Screen resolution: %ix%i", screenWidth, screenHeight), 10, 10, 20, DB32_DARKBLUEPURPLE);
             DrawFPS(GetScreenWidth() - 95, 10);
         EndDrawing();
         //----------------------------------------------------------------------------------

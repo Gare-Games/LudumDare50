@@ -11,9 +11,13 @@ using namespace std;
 
 class Player {
 	public:
+		Player();
 		Vector2 position;
 		Weapon* currentWeapon;
 		void DrawPlayer();
+		void Move();
+		float speed;
+		float diagnolSpeed;
 		Texture2D GetTexture2D();
 		Direction shootDirection;
 		Direction moveDirection;

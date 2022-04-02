@@ -17,8 +17,9 @@ class Pistol : public Weapon {
 		float reloadTimer;
 		float shotCooldown;
 		float reloadCooldown;
-		int rndsPerReload = 5;
-		int rounds = 5;
+		int rndsPerReload = 7;
+		int rounds;
+		bool bTriggerReload = false;
 };
 
 #endif
