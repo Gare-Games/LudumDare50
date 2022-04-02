@@ -13,6 +13,7 @@
 #include "pistol.h"
 #include "bullet.h"
 #include "bulletlist.h"
+#include "soundlist.h"
 
 #define GL_SRC_ALPHA 0x0302
 #define GL_MIN 0x8007
@@ -68,6 +69,7 @@ void Initialize()
 
 	// Load Textures
 	TextureList::Initialize();
+	SoundList::Initialize();
 
 	//ToggleFullscreen();
     screenSpaceCamera = { 0 }; // Smoothing camera
@@ -243,6 +245,7 @@ int main(void)
 				Dialog::GetActiveDialog()->DrawDialog();
 			}
 			
+            DrawText(TextFormat("AMMO: %i", player->currentWeapon->rounds), 10, 10, 20, DB32_RED);
             DrawFPS(GetScreenWidth() - 95, 10);
         EndDrawing();
         //----------------------------------------------------------------------------------

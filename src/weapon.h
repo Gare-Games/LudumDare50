@@ -8,6 +8,13 @@ class Weapon {
 		virtual void Trigger();
 		virtual void Update(float frameTime);
 		virtual void DrawWeapon();
+		float shotTimer;
+		float reloadTimer;
+		float shotCooldown;
+		float reloadCooldown;
+		int rndsPerReload = 7;
+		int rounds;
+		bool bTriggerReload = false;
 };
 
 #endif

@@ -22,9 +22,9 @@ obj:
 	test ! -d obj && mkdir obj
 
 Exe : obj/game.o
-	$(CC) obj/game.o obj/bulletlist.o obj/bullet.o obj/pistol.o obj/weapon.o obj/texturelist.o obj/player.o obj/dialog.o obj/collision.o obj/mouse.o obj/garegames.o obj/colors.o -o $(OUTPUTFILE) $(HEADFILESPATH) $(LIBSHARPATH) $(LINKPATHS) 
+	$(CC) obj/game.o obj/soundlist.o obj/bulletlist.o obj/bullet.o obj/pistol.o obj/weapon.o obj/texturelist.o obj/player.o obj/dialog.o obj/collision.o obj/mouse.o obj/garegames.o obj/colors.o -o $(OUTPUTFILE) $(HEADFILESPATH) $(LIBSHARPATH) $(LINKPATHS) 
 
-obj/game.o : src/game.cpp obj/bulletlist.o obj/bullet.o obj/pistol.o obj/weapon.o obj/texturelist.o obj/player.o obj/dialog.o obj/collision.o obj/mouse.o obj/garegames.o obj/colors.o
+obj/game.o : src/game.cpp obj/soundlist.o obj/bulletlist.o obj/bullet.o obj/pistol.o obj/weapon.o obj/texturelist.o obj/player.o obj/dialog.o obj/collision.o obj/mouse.o obj/garegames.o obj/colors.o
 	$(CC) src/game.cpp -c -o obj/game.o $(HEADFILESPATH) $(LIBSHARPATH) $(LINKPATHS) 
 
 obj/colors.o : src/colors.cpp src/colors.h
@@ -38,6 +38,9 @@ obj/pistol.o : src/pistol.cpp src/pistol.h
 
 obj/weapon.o : src/weapon.cpp src/weapon.h
 	$(CC) src/weapon.cpp -c -o obj/weapon.o $(HEADFILESPATH) $(LIBSHARPATH) $(LINKPATHS) 
+
+obj/soundlist.o : src/soundlist.cpp src/soundlist.h
+	$(CC) src/soundlist.cpp -c -o obj/soundlist.o $(HEADFILESPATH) $(LIBSHARPATH) $(LINKPATHS) 
 
 obj/texturelist.o : src/texturelist.cpp src/texturelist.h
 	$(CC) src/texturelist.cpp -c -o obj/texturelist.o $(HEADFILESPATH) $(LIBSHARPATH) $(LINKPATHS) 

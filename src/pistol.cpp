@@ -12,9 +12,16 @@ Pistol::Pistol(Player* playerInput)
 	player = playerInput;
 	rounds = rndsPerReload;
 }
+
 void Pistol::Trigger()
 {
-	if (shotTimer == 0.0f && rounds != 0)
+	if (bTriggerReload)
+	{
+		reloadTimer = reloadCooldown;
+		bTriggerReload = false;
+		rounds = 0;
+	}
+	else if (shotTimer == 0.0f && rounds != 0)
 	{
 		shotTimer = shotCooldown;
 		rounds--;
@@ -22,13 +29,11 @@ void Pistol::Trigger()
 		Bullet* bullet = new Bullet({player->position.x, player->position.y}, player->shootDirection);
 
 		BulletList::AddBullet(bullet);
-		
-		bTriggerReload = true;
-	}
-	else if (bTriggerReload)
-	{
-		reloadTimer = reloadCooldown;
-		bTriggerReload = false;
+
+		if (rounds == 0)
+		{
+			reloadTimer = reloadCooldown;
+		}
 	}
 	else if (rounds == 0 && reloadTimer == 0.0f)
 	{
@@ -38,11 +43,17 @@ void Pistol::Trigger()
 	{
 	}
 }
+
 void Pistol::Update(float frameTime)
 {
 	shotTimer = max(0.0f, shotTimer-frameTime);
 	reloadTimer = max(0.0f, reloadTimer-frameTime);
+	if (reloadTimer == 0.0f && rounds == 0)
+	{
+		rounds = rndsPerReload;
+	}
 }
+
 void Pistol::DrawWeapon()
 {
 }

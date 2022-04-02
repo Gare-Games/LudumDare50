@@ -13,13 +13,6 @@ class Pistol : public Weapon {
 		void Trigger();
 		void Update(float frameTime);
 		void DrawWeapon();
-		float shotTimer;
-		float reloadTimer;
-		float shotCooldown;
-		float reloadCooldown;
-		int rndsPerReload = 7;
-		int rounds;
-		bool bTriggerReload = false;
 };
 
 #endif
