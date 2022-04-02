@@ -82,6 +82,16 @@ int main(void)
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
+		//Reset shoot directions every update.
+		player->shootUp = false;
+		player->shootLeft = false;
+		player->shootRight = false;
+		player->shootDown = false;
+		player->shootUpLeft = false; 
+		player->shootUpRight = false; 
+		player->shootDownLeft = false; 
+		player->shootDownRight = false; 
+
         // Update
         //----------------------------------------------------------------------------------
 		if (IsWindowResized() && !IsWindowFullscreen())
@@ -128,10 +138,14 @@ int main(void)
 		if (IsKeyDown(KEY_D)) player->position.x++;
 
 		// Shoot Direction
-		if (IsKeyDown(KEY_UP)) player->position.y--;
-		if (IsKeyDown(KEY_LEFT)) player->position.x--;
-		if (IsKeyDown(KEY_DOWN)) player->position.y++;
-		if (IsKeyDown(KEY_RIGHT)) player->position.x++;
+		if (IsKeyDown(KEY_DOWN) && IsKeyDown(KEY_RIGHT)) player->shootDownRight = true;
+		else if (IsKeyDown(KEY_DOWN) && IsKeyDown(KEY_LEFT)) player->shootDownLeft = true;
+		else if (IsKeyDown(KEY_UP) && IsKeyDown(KEY_RIGHT)) player->shootUpRight = true;
+		else if (IsKeyDown(KEY_UP) && IsKeyDown(KEY_LEFT)) player->shootUpLeft = true;
+		else if (IsKeyDown(KEY_UP)) player->shootUp = true;
+		else if (IsKeyDown(KEY_LEFT)) player->shootLeft = true;
+		else if (IsKeyDown(KEY_DOWN)) player->shootDown = true;
+		else if (IsKeyDown(KEY_RIGHT)) player->shootRight = true;
 
         //----------------------------------------------------------------------------------
 
@@ -143,7 +157,22 @@ int main(void)
 			// Draw what you can see.
 
             BeginMode2D(screenSpaceCamera);
+				DrawRectangle(350,640, 50, 60, DB32_RED);
+				DrawRectangle(550,540, 50, 60, DB32_RED);
+				DrawRectangle(450,440, 50, 60, DB32_RED);
+				DrawRectangle(350,540, 50, 60, DB32_RED);
 				player->DrawPlayer();
+
+
+				//Draw a debug dot to represent shoot direction.
+				if (player->shootUp) DrawRectangle(player->position.x, player->position.y - 30, 3, 3, DB32_GREEN);
+				if (player->shootDown) DrawRectangle(player->position.x, player->position.y + 30, 3, 3, DB32_GREEN);
+				if (player->shootDownLeft) DrawRectangle(player->position.x-30, player->position.y + 30, 4, 5, DB32_GREEN);
+				if (player->shootDownRight) DrawRectangle(player->position.x+30, player->position.y + 30, 3, 5, DB32_GREEN);
+				if (player->shootUpLeft) DrawRectangle(player->position.x-30, player->position.y - 30, 3, 3, DB32_GREEN);
+				if (player->shootUpRight) DrawRectangle(player->position.x+30, player->position.y - 30, 3, 3, DB32_GREEN);
+				if (player->shootLeft) DrawRectangle(player->position.x-30, player->position.y, 3, 3, DB32_GREEN);
+				if (player->shootRight) DrawRectangle(player->position.x+30, player->position.y, 3, 3, DB32_GREEN);
             EndMode2D();
 
 
