@@ -11,6 +11,8 @@
 #include "colors.h"
 #include "weapon.h"
 #include "pistol.h"
+#include "bullet.h"
+#include "bulletlist.h"
 
 #define GL_SRC_ALPHA 0x0302
 #define GL_MIN 0x8007
@@ -79,6 +81,8 @@ void Initialize()
 	player->position.x = 350;
 	player->position.y = 640;
 	player->currentWeapon = new Pistol(player);
+	player->shootDirection = Direction::DOWN;
+	player->moveDirection = Direction::DOWN;
 }
 
 int main(void)
@@ -91,26 +95,7 @@ int main(void)
     {
 		lastFrameTime = thisFrameTime;
 		thisFrameTime = GetFrameTime();
-		TraceLog(LOG_INFO, TextFormat("Last: %f This: %f", lastFrameTime, thisFrameTime));
-		//Reset shoot directions every update.
-		player->shootUp = false;
-		player->shootLeft = false;
-		player->shootRight = false;
-		player->shootDown = false;
-		player->shootUpLeft = false; 
-		player->shootUpRight = false; 
-		player->shootDownLeft = false; 
-		player->shootDownRight = false; 
-
-		//Move direction every update.
-		player->moveUp = false;
-		player->moveLeft = false;
-		player->moveRight = false;
-		player->moveDown = false;
-		player->moveUpLeft = false; 
-		player->moveUpRight = false; 
-		player->moveDownLeft = false; 
-		player->moveDownRight = false; 
+		//TraceLog(LOG_INFO, TextFormat("Last: %f This: %f", lastFrameTime, thisFrameTime));
 
         // Update
         //----------------------------------------------------------------------------------
@@ -122,6 +107,12 @@ int main(void)
 		}
 
 		Mouse::Update();
+		player->currentWeapon->Update(thisFrameTime);
+		for (Bullet* bullet : BulletList::bullets)
+		{
+			bullet->Update(thisFrameTime);
+		}
+		
 
 
 		// Mouse Wheel Camera Zoom
@@ -159,14 +150,18 @@ int main(void)
 		if (IsKeyPressed(KEY_F)) bDebug = !bDebug;
 
 		// Shoot Direction
-		if (IsKeyDown(KEY_DOWN) && IsKeyDown(KEY_RIGHT)) player->shootDownRight = true;
-		else if (IsKeyDown(KEY_DOWN) && IsKeyDown(KEY_LEFT)) player->shootDownLeft = true;
-		else if (IsKeyDown(KEY_UP) && IsKeyDown(KEY_RIGHT)) player->shootUpRight = true;
-		else if (IsKeyDown(KEY_UP) && IsKeyDown(KEY_LEFT)) player->shootUpLeft = true;
-		else if (IsKeyDown(KEY_UP)) player->shootUp = true;
-		else if (IsKeyDown(KEY_LEFT)) player->shootLeft = true;
-		else if (IsKeyDown(KEY_DOWN)) player->shootDown = true;
-		else if (IsKeyDown(KEY_RIGHT)) player->shootRight = true;
+		if (IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_UP) || IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_RIGHT))
+		{
+			if (IsKeyDown(KEY_DOWN) && IsKeyDown(KEY_RIGHT)) player->shootDirection = Direction::DOWNRIGHT;
+			else if (IsKeyDown(KEY_DOWN) && IsKeyDown(KEY_LEFT)) player->shootDirection = Direction::DOWNLEFT;
+			else if (IsKeyDown(KEY_UP) && IsKeyDown(KEY_RIGHT)) player->shootDirection = Direction::UPRIGHT;
+			else if (IsKeyDown(KEY_UP) && IsKeyDown(KEY_LEFT)) player->shootDirection = Direction::UPLEFT;
+			else if (IsKeyDown(KEY_UP)) player->shootDirection = Direction::UP;
+			else if (IsKeyDown(KEY_LEFT)) player->shootDirection = Direction::LEFT;
+			else if (IsKeyDown(KEY_DOWN)) player->shootDirection = Direction::DOWN;
+			else if (IsKeyDown(KEY_RIGHT)) player->shootDirection = Direction::RIGHT;
+			player->currentWeapon->Trigger();
+		}
 
         //----------------------------------------------------------------------------------
 
@@ -188,14 +183,38 @@ int main(void)
 				//Draw a debug dot to represent shoot direction.
 				if (bDebug)
 				{
-					if (player->shootUp) DrawRectangle(player->position.x, player->position.y - 30, 3, 3, DB32_GREEN);
-					if (player->shootDown) DrawRectangle(player->position.x, player->position.y + 30, 3, 3, DB32_GREEN);
-					if (player->shootDownLeft) DrawRectangle(player->position.x-30, player->position.y + 30, 4, 5, DB32_GREEN);
-					if (player->shootDownRight) DrawRectangle(player->position.x+30, player->position.y + 30, 3, 5, DB32_GREEN);
-					if (player->shootUpLeft) DrawRectangle(player->position.x-30, player->position.y - 30, 3, 3, DB32_GREEN);
-					if (player->shootUpRight) DrawRectangle(player->position.x+30, player->position.y - 30, 3, 3, DB32_GREEN);
-					if (player->shootLeft) DrawRectangle(player->position.x-30, player->position.y, 3, 3, DB32_GREEN);
-					if (player->shootRight) DrawRectangle(player->position.x+30, player->position.y, 3, 3, DB32_GREEN);
+					switch(player->shootDirection)
+					{
+						case Direction::UP:
+							DrawRectangle(player->position.x, player->position.y - 30, 3, 3, DB32_GREEN);
+							break;
+						case Direction::DOWN:
+							DrawRectangle(player->position.x, player->position.y + 30, 3, 3, DB32_GREEN);
+							break;
+						case Direction::DOWNLEFT:
+							DrawRectangle(player->position.x-30, player->position.y + 30, 4, 5, DB32_GREEN);
+							break;
+						case Direction::DOWNRIGHT:
+							DrawRectangle(player->position.x+30, player->position.y + 30, 3, 5, DB32_GREEN);
+							break;
+						case Direction::UPLEFT:
+							DrawRectangle(player->position.x-30, player->position.y - 30, 3, 3, DB32_GREEN);
+							break;
+						case Direction::UPRIGHT:
+							DrawRectangle(player->position.x+30, player->position.y - 30, 3, 3, DB32_GREEN);
+							break;
+						case Direction::LEFT:
+							DrawRectangle(player->position.x-30, player->position.y, 3, 3, DB32_GREEN);
+							break;
+						case Direction::RIGHT:
+							DrawRectangle(player->position.x+30, player->position.y, 3, 3, DB32_GREEN);
+							break;
+					}
+				}
+
+				for (Bullet* bullet : BulletList::bullets)
+				{
+					bullet->Draw();
 				}
             EndMode2D();
 
