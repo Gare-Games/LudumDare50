@@ -14,6 +14,8 @@
 #include "bullet.h"
 #include "bulletlist.h"
 #include "soundlist.h"
+#include "enemy.h"
+#include "enemylist.h"
 
 #define GL_SRC_ALPHA 0x0302
 #define GL_MIN 0x8007
@@ -58,6 +60,11 @@ int GetMouseWorldY()
 	return GetScreenToWorld2D(GetMousePosition(), screenSpaceCamera).y;
 }
 
+Vector2 GetMouseWorldPos()
+{
+	return GetScreenToWorld2D(GetMousePosition(), screenSpaceCamera);
+}
+
 void Initialize()
 {
     // Initialization
@@ -66,6 +73,7 @@ void Initialize()
 	// Set this later if you want resizable windows. Will probably break the game.
 	//SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "Smash the Swarm!");
+	InitAudioDevice();
 
 	// Load Textures
 	TextureList::Initialize();
@@ -115,18 +123,39 @@ int main(void)
 			bullet->Update(thisFrameTime);
 		}
 		
-
-
-		// Mouse Wheel Camera Zoom
-		if (GetMouseWheelMove() != 0)
+		for (Enemy* enemy : EnemyList::enemys)
 		{
-			screenSpaceCamera.zoom += ((float)GetMouseWheelMove()*0.05f);
-        	if (screenSpaceCamera.zoom > 3.0f) screenSpaceCamera.zoom = 3.0f;
-        	else if (screenSpaceCamera.zoom < 0.25f) screenSpaceCamera.zoom = 0.25f;
-
-			TraceLog(LOG_INFO, TextFormat("Zoom: %i", screenSpaceCamera.zoom));
+			enemy->Update(thisFrameTime);
 		}
 
+
+		// Check collisions here.
+		for (Enemy* enemy : EnemyList::enemys)
+		{
+			if(enemy->bDead) continue;
+
+			for (Bullet* bullet : BulletList::bullets)
+			{
+				if(bullet->bDead) continue;
+				if (Collision::RectWithRect(enemy->GetHitBoxLoc(), bullet->GetHitBoxLoc()))
+				{
+					enemy->bDead = true;
+					bullet->bDead = true;
+					break;
+				}
+			}
+		}
+
+		// Mouse Wheel Camera Zoom
+//		if (GetMouseWheelMove() != 0)
+//		{
+//			screenSpaceCamera.zoom += ((float)GetMouseWheelMove()*0.05f);
+//        	if (screenSpaceCamera.zoom > 3.0f) screenSpaceCamera.zoom = 3.0f;
+//        	else if (screenSpaceCamera.zoom < 0.25f) screenSpaceCamera.zoom = 0.25f;
+//
+//			TraceLog(LOG_INFO, TextFormat("Zoom: %i", screenSpaceCamera.zoom));
+//		}
+//
 		//screenSpaceCamera.target.x = player->position.x;
 		//screenSpaceCamera.target.y = player->position.y;
 
@@ -141,6 +170,11 @@ int main(void)
 		{
 			moveToX = GetMouseWorldX();
 			moveToY = GetMouseWorldY();
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			Enemy* enemy = new Enemy(GetMouseWorldPos(), player);
+			EnemyList::AddEnemy(enemy);
 		}
 
 		// Better have an in order list of what occurs.
@@ -226,7 +260,14 @@ int main(void)
 
 				for (Bullet* bullet : BulletList::bullets)
 				{
+					if(bullet->bDead) continue;
 					bullet->Draw();
+				}
+
+				for (Enemy* enemy : EnemyList::enemys)
+				{
+					if(enemy->bDead) continue;
+					enemy->Draw();
 				}
             EndMode2D();
 

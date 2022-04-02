@@ -3,15 +3,12 @@
 map<string, Texture2D> TextureList::textureMap;
 list<pair<string, string>> TextureList::textureNameDir(
 		{
-			{"house", "resources/house.png"},
-			{"hq", "resources/hq.png"},
-			{"person", "resources/character.png"},
-			{"foggy", "resources/foggy.png"},
 			{"bottomUIFill50", "resources/bottomUIFiller50.png"},
 			{"bottomUIFill1", "resources/bottomUIFiller1.png"},
 			{"bottomUILSide", "resources/bottomUILSide.png"},
 			{"bottomUIRSide", "resources/bottomUIRSide.png"},
 			{"player", "resources/player.png"},
+			{"enemy", "resources/enemy.png"},
 		});
 
 void TextureList::Initialize()

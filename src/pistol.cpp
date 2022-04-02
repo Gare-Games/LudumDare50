@@ -1,12 +1,13 @@
 #include "pistol.h"
 #include "bulletlist.h"
+#include "soundlist.h"
 
 
 Pistol::Pistol(Player* playerInput)
 {
 	shotTimer = 0.0f;
 	//Constant?
-	shotCooldown = 0.125f;
+	shotCooldown = 0.15f;
 	reloadTimer = 0.0f;
 	reloadCooldown = 1.00f;
 	player = playerInput;
@@ -30,8 +31,10 @@ void Pistol::Trigger()
 
 		BulletList::AddBullet(bullet);
 
+			PlaySound(SoundList::soundMap["shoot"]);
 		if (rounds == 0)
 		{
+			PlaySound(SoundList::soundMap["blockEnd"]);
 			reloadTimer = reloadCooldown;
 		}
 	}

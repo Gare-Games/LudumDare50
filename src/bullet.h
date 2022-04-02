@@ -17,6 +17,8 @@ class Bullet {
 		float diagnolSpeed;
 		void Update(float frameTime);
 		void Draw();
+		Rectangle GetHitBoxLoc();
+		bool bDead = false;
 };
 
 #endif

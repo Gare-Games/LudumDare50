@@ -60,3 +60,7 @@ void Bullet::Draw()
 {
 	DrawRectangle(position.x, position.y, width, height, DB32_BLACK);
 }
+Rectangle Bullet::GetHitBoxLoc()
+{
+	return {position.x, position.y, width, height};
+}
