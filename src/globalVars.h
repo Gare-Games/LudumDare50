@@ -7,5 +7,6 @@ class GlobalVars
 {
 	public:
 		static Player* player;
+		static long score;
 };
 #endif

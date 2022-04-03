@@ -3,6 +3,10 @@
 
 #include "raylib.h"
 #include "garegames.h"
+#include <string>
+#include "texturelist.h"
+
+using namespace std;
 
 class Player;
 class Weapon {
@@ -16,9 +20,12 @@ class Weapon {
 		float reloadTimer;
 		float shotCooldown;
 		float reloadCooldown;
-		int rndsPerReload = 7;
+		int rndsPerReload;
 		int rounds;
 		bool bTriggerReload = false;
+		string weaponName;
+		string weaponIconTexture;
+		Texture2D GetWeaponIconTexture2D();
 };
 
 #endif

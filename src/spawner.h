@@ -13,6 +13,7 @@ enum class EnemyType {
 	Main, 
 	Tough,
 	ITEM_Rifle,
+	ITEM_Cash,
 	ITEM_PistolDmg,
 	ITEM_PistolMagSize,
 	ITEM_EXPLODEMAP,

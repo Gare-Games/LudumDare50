@@ -3,7 +3,6 @@
 #include "soundlist.h"
 #include "garegames.h"
 
-
 Pistol::Pistol(Player* playerInput)
 {
 	shotTimer = 0.0f;
@@ -12,7 +11,10 @@ Pistol::Pistol(Player* playerInput)
 	reloadTimer = 0.0f;
 	reloadCooldown = 1.00f;
 	player = playerInput;
+	rndsPerReload = 7;
 	rounds = rndsPerReload;
+	weaponName = "Pistol";
+	weaponIconTexture = "pistolIcon";
 }
 
 void Pistol::Trigger()

@@ -47,7 +47,6 @@ bool bLeftMouseLast = false;
 bool bDebug = false;
 int mouseXLast = -1;
 int mouseYLast = -1;
-long score = 0;
 
 int moveToX = 0;
 int moveToY = 0;
@@ -182,7 +181,7 @@ int main(void)
 					enemy->TakeDamage(bullet->damage);
 					PlaySound(SoundList::soundMap["hitBadGuy"]);
 					if (enemy->bDead)
-						score += 5;
+						GlobalVars::score += 5;
 					break;
 				}
 			}
@@ -330,7 +329,7 @@ int main(void)
 			}
 			
             DrawText(TextFormat("AMMO: %i", player->currentWeapon->rounds), 40, 5, 20, DB32_GREEN);
-			DrawText(TextFormat("SCORE: %i", score), GetScreenWidth()-200, 5, 20, DB32_GREEN);
+			DrawText(TextFormat("SCORE: %i", GlobalVars::score), GetScreenWidth()-200, 5, 20, DB32_GREEN);
 			DrawText(TextFormat("ALIVE TIME: %.2f", timeSurvived), GetScreenWidth()-470, 5, 20, DB32_GREEN);
 
 			if (bGameOver) DrawText(TextFormat("GAME OVER"), 320, 260, 35, DB32_RED);
@@ -368,7 +367,7 @@ void ResetGame()
 	player->currentWeapon = new Pistol(player);
 	player->shootDirection = Direction::DOWN;
 	player->moveDirection = Direction::DOWN;
-	score = 0;
+	GlobalVars::score = 0;
 	level1->Start();
 	timeSurvived = 0;
 }

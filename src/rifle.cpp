@@ -8,11 +8,14 @@ Rifle::Rifle(Player* playerInput)
 {
 	shotTimer = 0.0f;
 	//Constant?
-	shotCooldown = 0.15f;
+	shotCooldown = 0.25f;
 	reloadTimer = 0.0f;
-	reloadCooldown = 1.00f;
+	reloadCooldown = 0.75f;
 	player = playerInput;
+	rndsPerReload = 20;
 	rounds = rndsPerReload;
+	weaponName = "Rifle";
+	weaponIconTexture = "rifleIcon";
 }
 
 void Rifle::Trigger()
@@ -29,6 +32,7 @@ void Rifle::Trigger()
 		rounds--;
 		// Spawn bullet at player location.
 		Bullet* bullet = new Bullet(WeaponExitPosition(player->position, player->shootDirection), player->shootDirection);
+		bullet->damage = 2.0f;
 
 		BulletList::AddBullet(bullet);
 
