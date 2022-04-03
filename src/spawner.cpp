@@ -39,12 +39,16 @@ void SpawnJob::Update(float frameTime)
 			{
 				case SpawnLocation::LEFT:
 					vector = {3.0f,285.0f};
+					break;
 				case SpawnLocation::RIGHT:
-					vector = {297.0f,285.0f};
+					vector = {797.0f,285.0f};
+					break;
 				case SpawnLocation::UP:
 					vector = {415.0f,3.0f};
+					break;
 				case SpawnLocation::DOWN:
 					vector = {415.0f,597.0f};
+					break;
 			}
 
 			switch (enemyType)
@@ -73,7 +77,7 @@ void Spawner::Update(float frameTime)
 }
 void Spawner::AddJob(EnemyType enemyType, SpawnLocation location, int amount, float startTime, float interval)
 {	
-	//TraceLog(LOG_INFO, "%s, %s, %i, %f, %f", enemyType, location, amount, startTime, interval);
+	TraceLog(LOG_INFO, "Adding Job %i, %i, %f, %f, %f", enemyType, location, amount, startTime, interval);
 	SpawnJob* spawnJob = new SpawnJob(enemyType, location, amount, startTime, interval);
 	spawnJobs.push_back(spawnJob);
 }

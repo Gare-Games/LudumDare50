@@ -9,7 +9,7 @@ Enemy::Enemy(Vector2 startPosition, Player* target)
 void Enemy::Update(float frameTime)
 {
 	// MODE: CHASE
-	if (position.x != player->position.x)
+	if (position.x != player->position.x || position.y != player->position.y)
 	{
 		if (position.x < player->position.x)
 			position.x++;
