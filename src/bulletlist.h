@@ -15,6 +15,7 @@ class BulletList {
 		static void RemoveBullet();
 		static void AddBullet(Bullet* bullet);
 		static void CleanUp();
+		static void Clear();
 	private:
 };
 

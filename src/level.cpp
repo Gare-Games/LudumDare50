@@ -24,3 +24,8 @@ void Level::AddSpawnJob(EnemyType enemyType, SpawnLocation location, int amount,
 {
 	spawner->AddJob(enemyType, location, amount, startTime, interval);
 }
+
+void Level::Reset()
+{
+	spawner->Reset();
+}

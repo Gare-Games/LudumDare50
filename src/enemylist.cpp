@@ -25,3 +25,8 @@ void EnemyList::CleanUp()
 	//enemys.clear();
 	//enemys.insert(enemys.end(), newList.begin(), newList.end());
 }
+
+void EnemyList::Clear()
+{
+	enemys.clear();
+}

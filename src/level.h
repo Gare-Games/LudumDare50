@@ -11,6 +11,7 @@ class Level
 		Spawner* spawner;
 		void Start();
 		void Stop();
+		void Reset();
 		void Update(float frameTime);
 		void AddSpawnJob(EnemyType enemyType, SpawnLocation location, int amount, float startTime, float interval);
 		bool bStart = false;

@@ -41,8 +41,10 @@ RenderTexture2D fogOfWarTexture;
 
 Player* player;
 
+bool bGameOver = false;
+bool bPaused = false;
 bool bLeftMouseLast = false;
-bool bDebug = true;
+bool bDebug = false;
 int mouseXLast = -1;
 int mouseYLast = -1;
 long score = 0;
@@ -52,9 +54,12 @@ int moveToY = 0;
 
 int GetMouseWorldX();
 int GetMouseWorldY();
+void ResetGame();
+void GameOver();
 
 float thisFrameTime = 0.0f;
 float lastFrameTime = 0.0f;
+float timeSurvived = 0.0f;
 
 
 int GetMouseWorldX()
@@ -97,23 +102,33 @@ void Initialize()
 	player = new Player();
 	player->position = (Vector2) { screenWidth/2.0f, screenHeight/2.0f };
 	player->currentWeapon = new Pistol(player);
+	//player->defaultWeapon = player->currentWeapon;
 	player->shootDirection = Direction::DOWN;
 	player->moveDirection = Direction::DOWN;
 	GlobalVars::player = player;
 
 	level1 = new Level();
 
-	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::LEFT, -1, 2.0f, 1.0f);
-	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::UP, 5, 0.5f, 1.0f);
-	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::RIGHT, 5, 1.5f, 1.0f);
-	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::DOWN, 5, 1.0f, 1.0f);
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::LEFT, -1, 2.0f, 1.5f);
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::RIGHT, -1, 2.0f, 1.5f);
 
-	level1->AddSpawnJob(EnemyType::Tough, SpawnLocation::RIGHT, 7, 1.5f, 1.0f);
-	level1->AddSpawnJob(EnemyType::Tough, SpawnLocation::LEFT, 7, 1.5f, 1.0f);
-	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::LEFT, 15, 40.0f, 1.0f);
-	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::UP, 15, 30.5f, 1.0f);
-	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::RIGHT, 30, 5.5f, 1.0f);
-	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::DOWN, 30, 45.0f, 1.0f);
+	// Introduce first new baddie here.
+	level1->AddSpawnJob(EnemyType::Tough, SpawnLocation::RIGHT, -1, 20.0f, 4.5f);
+	level1->AddSpawnJob(EnemyType::Tough, SpawnLocation::LEFT, -1, 22.0f, 4.5f);
+
+
+	level1->AddSpawnJob(EnemyType::Tough, SpawnLocation::DOWN, -1, 35.0f, 6.0f);
+
+	// Probably should spawn an item here.
+
+
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::UP, -1, 40.0f, 3.0f);
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::DOWN, -1, 60.0f, 4.5f);
+
+	level1->AddSpawnJob(EnemyType::Tough, SpawnLocation::UP, -1, 90.0f, 6.0f);
+
+	// Introduce second baddie here.
+
 }
 
 int main(void)
@@ -165,11 +180,17 @@ int main(void)
 				{
 					bullet->bDead = true;
 					enemy->TakeDamage(bullet->damage);
+					PlaySound(SoundList::soundMap["hitBadGuy"]);
 					if (enemy->bDead)
 						score += 5;
 					break;
 				}
 			}
+		}
+
+		if (!bGameOver)
+		{
+			timeSurvived += thisFrameTime;
 		}
 
 		EnemyList::CleanUp();
@@ -181,7 +202,10 @@ int main(void)
 			if (Collision::RectWithRect(enemy->GetAttackBoxLoc(), player->GetHitBoxLoc()))
 			{
 				//Trigger game reset
-				TraceLog(LOG_INFO, "GAME OVER");
+				if (!bGameOver)
+				{
+					GameOver();
+				}
 			}
 		}
 
@@ -203,48 +227,47 @@ int main(void)
 			Dialog::GetActiveDialog()->Update();
 		}
 
-
-		if (IsMouseButtonPressed(MOUSE_BUTTON_RIGHT))
-		{
-			moveToX = GetMouseWorldX();
-			moveToY = GetMouseWorldY();
-		}
-		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-		{
-			Enemy* enemy = new Enemy(GetMouseWorldPos(), player);
-			EnemyList::AddEnemy(enemy);
-		}
-
 		// Better have an in order list of what occurs.
 		// Keyboard Controls
 		if (IsKeyPressed(KEY_F)) bDebug = !bDebug;
 
-		// Move Direction
-		if (IsKeyDown(KEY_S) || IsKeyDown(KEY_W) || IsKeyDown(KEY_A) || IsKeyDown(KEY_D))
+		if (!bGameOver)
 		{
-			if (IsKeyDown(KEY_S) && IsKeyDown(KEY_D)) player->moveDirection = Direction::DOWNRIGHT;
-			else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_A)) player->moveDirection = Direction::DOWNLEFT;
-			else if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D)) player->moveDirection = Direction::UPRIGHT;
-			else if (IsKeyDown(KEY_W) && IsKeyDown(KEY_A)) player->moveDirection = Direction::UPLEFT;
-			else if (IsKeyDown(KEY_W)) player->moveDirection = Direction::UP;
-			else if (IsKeyDown(KEY_A)) player->moveDirection = Direction::LEFT;
-			else if (IsKeyDown(KEY_S)) player->moveDirection = Direction::DOWN;
-			else if (IsKeyDown(KEY_D)) player->moveDirection = Direction::RIGHT;
-			player->Move();
-		}
+			// Move Direction
+			if (IsKeyDown(KEY_S) || IsKeyDown(KEY_W) || IsKeyDown(KEY_A) || IsKeyDown(KEY_D))
+			{
+				if (IsKeyDown(KEY_S) && IsKeyDown(KEY_D)) player->moveDirection = Direction::DOWNRIGHT;
+				else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_A)) player->moveDirection = Direction::DOWNLEFT;
+				else if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D)) player->moveDirection = Direction::UPRIGHT;
+				else if (IsKeyDown(KEY_W) && IsKeyDown(KEY_A)) player->moveDirection = Direction::UPLEFT;
+				else if (IsKeyDown(KEY_W)) player->moveDirection = Direction::UP;
+				else if (IsKeyDown(KEY_A)) player->moveDirection = Direction::LEFT;
+				else if (IsKeyDown(KEY_S)) player->moveDirection = Direction::DOWN;
+				else if (IsKeyDown(KEY_D)) player->moveDirection = Direction::RIGHT;
+				player->Move();
+			}
 
-		// Shoot Direction
-		if (IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_UP) || IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_RIGHT))
+			// Shoot Direction
+			if (IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_UP) || IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_RIGHT))
+			{
+				if (IsKeyDown(KEY_DOWN) && IsKeyDown(KEY_RIGHT)) player->shootDirection = Direction::DOWNRIGHT;
+				else if (IsKeyDown(KEY_DOWN) && IsKeyDown(KEY_LEFT)) player->shootDirection = Direction::DOWNLEFT;
+				else if (IsKeyDown(KEY_UP) && IsKeyDown(KEY_RIGHT)) player->shootDirection = Direction::UPRIGHT;
+				else if (IsKeyDown(KEY_UP) && IsKeyDown(KEY_LEFT)) player->shootDirection = Direction::UPLEFT;
+				else if (IsKeyDown(KEY_UP)) player->shootDirection = Direction::UP;
+				else if (IsKeyDown(KEY_LEFT)) player->shootDirection = Direction::LEFT;
+				else if (IsKeyDown(KEY_DOWN)) player->shootDirection = Direction::DOWN;
+				else if (IsKeyDown(KEY_RIGHT)) player->shootDirection = Direction::RIGHT;
+				player->currentWeapon->Trigger();
+			}
+		}
+		else
 		{
-			if (IsKeyDown(KEY_DOWN) && IsKeyDown(KEY_RIGHT)) player->shootDirection = Direction::DOWNRIGHT;
-			else if (IsKeyDown(KEY_DOWN) && IsKeyDown(KEY_LEFT)) player->shootDirection = Direction::DOWNLEFT;
-			else if (IsKeyDown(KEY_UP) && IsKeyDown(KEY_RIGHT)) player->shootDirection = Direction::UPRIGHT;
-			else if (IsKeyDown(KEY_UP) && IsKeyDown(KEY_LEFT)) player->shootDirection = Direction::UPLEFT;
-			else if (IsKeyDown(KEY_UP)) player->shootDirection = Direction::UP;
-			else if (IsKeyDown(KEY_LEFT)) player->shootDirection = Direction::LEFT;
-			else if (IsKeyDown(KEY_DOWN)) player->shootDirection = Direction::DOWN;
-			else if (IsKeyDown(KEY_RIGHT)) player->shootDirection = Direction::RIGHT;
-			player->currentWeapon->Trigger();
+			if (IsKeyPressed(KEY_R)) 
+			{
+				// Reset Function;
+				ResetGame();
+			}
 		}
 
         //----------------------------------------------------------------------------------
@@ -306,8 +329,13 @@ int main(void)
 				Dialog::GetActiveDialog()->DrawDialog();
 			}
 			
-            DrawText(TextFormat("AMMO: %i", player->currentWeapon->rounds), 10, 5, 20, DB32_RED);
+            DrawText(TextFormat("AMMO: %i", player->currentWeapon->rounds), 40, 5, 20, DB32_GREEN);
 			DrawText(TextFormat("SCORE: %i", score), GetScreenWidth()-200, 5, 20, DB32_GREEN);
+			DrawText(TextFormat("ALIVE TIME: %.2f", timeSurvived), GetScreenWidth()-470, 5, 20, DB32_GREEN);
+
+			if (bGameOver) DrawText(TextFormat("GAME OVER"), 320, 260, 35, DB32_RED);
+			if (bGameOver) DrawText(TextFormat("Press R to restart "), 320, 300, 15, DB32_GREEN);
+			if (bGameOver) DrawText(TextFormat("Press R to restart "), 320, 300, 15, DB32_GREEN);
             //DrawFPS(GetScreenWidth() - 95, 10);
         EndDrawing();
         //----------------------------------------------------------------------------------
@@ -321,4 +349,26 @@ int main(void)
     //--------------------------------------------------------------------------------------
 
     return 0;
+}
+
+void GameOver()
+{
+	bGameOver = true;
+	PlaySound(SoundList::soundMap["death"]);
+	level1->Stop();
+}
+
+void ResetGame()
+{
+	EnemyList::Clear();
+	BulletList::Clear();
+	bGameOver = false;
+	level1->Reset();
+	player->position = (Vector2) { screenWidth/2.0f, screenHeight/2.0f };
+	player->currentWeapon = new Pistol(player);
+	player->shootDirection = Direction::DOWN;
+	player->moveDirection = Direction::DOWN;
+	score = 0;
+	level1->Start();
+	timeSurvived = 0;
 }

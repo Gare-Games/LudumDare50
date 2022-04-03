@@ -25,3 +25,8 @@ void BulletList::CleanUp()
 	}
 	bullets = newList;
 }
+
+void BulletList::Clear()
+{
+	bullets.clear();
+}

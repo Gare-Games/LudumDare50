@@ -14,6 +14,7 @@ class Player {
 		Player();
 		Vector2 position;
 		Weapon* currentWeapon;
+		Weapon* defaultWeapon; // The pistol.
 		void DrawPlayer();
 		void Move();
 		float speed;

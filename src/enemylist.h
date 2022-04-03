@@ -15,6 +15,7 @@ class EnemyList {
 		static void RemoveEnemy();
 		static void AddEnemy(Enemy* enemy);
 		static void CleanUp();
+		static void Clear();
 	private:
 };
 

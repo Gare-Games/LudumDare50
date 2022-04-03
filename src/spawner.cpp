@@ -11,6 +11,14 @@ SpawnJob::SpawnJob(EnemyType enemyType, SpawnLocation location, int amount, floa
 	this->startTimer = startTime;	
 	this->intervalTimer = interval;	
 }
+void SpawnJob::Reset()
+{
+	spawned = 0;	
+	bStart = false;
+	bDone = false;
+	intervalTimer = interval;
+	startTimer = startTime;
+}
 void SpawnJob::Update(float frameTime)
 {
 	if(bDone) return;
@@ -21,7 +29,6 @@ void SpawnJob::Update(float frameTime)
 		if (startTimer == 0.0f)
 		{
 			bStart = true;
-			TraceLog(LOG_INFO, "Spawner Started");
 		}
 		else
 		{
@@ -69,7 +76,6 @@ void SpawnJob::Update(float frameTime)
 					spawned++;
 					break;
 				case EnemyType::Tough:
-					TraceLog(LOG_INFO, "This occurred");
 					enemy = new ToughEnemy(vector, GlobalVars::player);
 					enemy->hitpoints = 2.0f;
 					enemy->speed = 0.5f;
@@ -99,10 +105,16 @@ void Spawner::Update(float frameTime)
 }
 void Spawner::AddJob(EnemyType enemyType, SpawnLocation location, int amount, float startTime, float interval)
 {	
-	TraceLog(LOG_INFO, "Adding Job %i, %i, %f, %f, %f", enemyType, location, amount, startTime, interval);
 	SpawnJob* spawnJob = new SpawnJob(enemyType, location, amount, startTime, interval);
 	spawnJobs.push_back(spawnJob);
 }
 void Spawner::Start()
 {
+}
+void Spawner::Reset()
+{
+	for(SpawnJob* spawnJob : spawnJobs)
+	{
+		spawnJob->Reset();
+	}
 }

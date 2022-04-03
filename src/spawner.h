@@ -8,10 +8,16 @@
 #include "toughenemy.h"
 #include "garegames.h"
 
-
+// Spawn anything.
 enum class EnemyType { 
-	Main = 1, 
-	Tough = 2 
+	Main, 
+	Tough,
+	ITEM_Rifle,
+	ITEM_PistolDmg,
+	ITEM_PistolMagSize,
+	ITEM_EXPLODEMAP,
+	ITEM_SHIELD,
+	ITEM_RANDOM
 };
 
 enum class SpawnLocation { 
@@ -36,6 +42,7 @@ class SpawnJob
 		bool bStart = false;
 		bool bDone = false;
 		void Update(float frameTime);
+		void Reset();
 };
 
 class Spawner
@@ -48,6 +55,7 @@ class Spawner
 		// This allows you to define a level with a simple jobs.
 		void AddJob(EnemyType enemyType, SpawnLocation location, int amount, float startTime, float interval);
 		void Start();
+		void Reset();
 		void Update(float frameTime);
 	
 };
