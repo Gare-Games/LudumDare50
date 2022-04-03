@@ -211,9 +211,13 @@ Rectangle Enemy::GetHitBoxLoc()
 	return {position.x+5, position.y+ 10, width-10, 40};
 }
 
+Rectangle Enemy::GetAttackBoxLoc()
+{
+	return {position.x+5, position.y+ 25, width-10, 25};
+}
+
 void Enemy::TakeDamage(float amount)
 {
-	TraceLog(LOG_INFO, "Hitpoints: %f", hitpoints);
 	hitpoints -= amount;
 	if (hitpoints <= 0.0f)
 		bDead = true;

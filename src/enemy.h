@@ -24,6 +24,7 @@ class Enemy {
 		virtual Texture2D GetTexture2D();
 		Player* player;
 		Rectangle GetHitBoxLoc();
+		Rectangle GetAttackBoxLoc();
 		void SetMoveTarget(Vector2 position);
 		int width = 20;
 		int height = 50;

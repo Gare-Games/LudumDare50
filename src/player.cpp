@@ -119,3 +119,7 @@ void Player::Move()
 		}
 	}
 }
+Rectangle Player::GetHitBoxLoc()
+{
+	return {position.x+5, position.y+ 25, width-10, 25};
+}

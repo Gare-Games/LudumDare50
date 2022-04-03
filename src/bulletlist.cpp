@@ -18,8 +18,6 @@ void BulletList::CleanUp()
 	vector<Bullet*> newList;
 	for(Bullet* bullet : bullets)
 	{
-		
-		TraceLog(LOG_INFO, "BulletBDead:CleanUp: %i", bullet->bDead);
 		if(!bullet->bDead)
 		{
 			newList.push_back(bullet);

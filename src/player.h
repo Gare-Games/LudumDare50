@@ -21,6 +21,9 @@ class Player {
 		Texture2D GetTexture2D();
 		Direction shootDirection;
 		Direction moveDirection;
+		Rectangle GetHitBoxLoc();
+		int width = 20;
+		int height = 50;
 	private:
 };
 

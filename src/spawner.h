@@ -6,6 +6,7 @@
 #include "globalvars.h"
 #include "enemy.h"
 #include "toughenemy.h"
+#include "garegames.h"
 
 
 enum class EnemyType { 

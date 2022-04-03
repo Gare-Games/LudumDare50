@@ -63,6 +63,8 @@ void SpawnJob::Update(float frameTime)
 					enemy = new Enemy(vector, GlobalVars::player);
 					enemy->mode= EnemyMode::MOVETO;
 					enemy->SetMoveTarget(targetMove);
+					enemy->speed = 1.5f;
+					enemy->diagnolSpeed = GareGames::ConvertToDiagnol(enemy->speed);
 					EnemyList::AddEnemy(enemy);
 					spawned++;
 					break;
@@ -70,6 +72,8 @@ void SpawnJob::Update(float frameTime)
 					TraceLog(LOG_INFO, "This occurred");
 					enemy = new ToughEnemy(vector, GlobalVars::player);
 					enemy->hitpoints = 2.0f;
+					enemy->speed = 0.5f;
+					enemy->diagnolSpeed = GareGames::ConvertToDiagnol(enemy->speed);
 					enemy->mode= EnemyMode::MOVETO;
 					enemy->SetMoveTarget(targetMove);
 					EnemyList::AddEnemy(enemy);

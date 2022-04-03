@@ -103,17 +103,17 @@ void Initialize()
 
 	level1 = new Level();
 
-//	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::LEFT, -1, 2.0f, 1.0f);
-//	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::UP, 5, 0.5f, 1.0f);
-//	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::RIGHT, 5, 1.5f, 1.0f);
-//	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::DOWN, 5, 1.0f, 1.0f);
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::LEFT, -1, 2.0f, 1.0f);
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::UP, 5, 0.5f, 1.0f);
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::RIGHT, 5, 1.5f, 1.0f);
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::DOWN, 5, 1.0f, 1.0f);
 
 	level1->AddSpawnJob(EnemyType::Tough, SpawnLocation::RIGHT, 7, 1.5f, 1.0f);
 	level1->AddSpawnJob(EnemyType::Tough, SpawnLocation::LEFT, 7, 1.5f, 1.0f);
-//	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::LEFT, 15, 40.0f, 1.0f);
-//	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::UP, 15, 30.5f, 1.0f);
-//	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::RIGHT, 30, 5.5f, 1.0f);
-//	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::DOWN, 30, 45.0f, 1.0f);
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::LEFT, 15, 40.0f, 1.0f);
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::UP, 15, 30.5f, 1.0f);
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::RIGHT, 30, 5.5f, 1.0f);
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::DOWN, 30, 45.0f, 1.0f);
 }
 
 int main(void)
@@ -128,7 +128,6 @@ int main(void)
     {
 		lastFrameTime = thisFrameTime;
 		thisFrameTime = GetFrameTime();
-		//TraceLog(LOG_INFO, TextFormat("Last: %f This: %f", lastFrameTime, thisFrameTime));
 
         // Update
         //----------------------------------------------------------------------------------
@@ -176,6 +175,16 @@ int main(void)
 		EnemyList::CleanUp();
 		BulletList::CleanUp();
 
+		//Check for collision with player == death!
+		for (Enemy* enemy : EnemyList::enemys)
+		{
+			if (Collision::RectWithRect(enemy->GetAttackBoxLoc(), player->GetHitBoxLoc()))
+			{
+				//Trigger game reset
+				TraceLog(LOG_INFO, "GAME OVER");
+			}
+		}
+
 		// Mouse Wheel Camera Zoom
 //		if (GetMouseWheelMove() != 0)
 //		{
@@ -183,7 +192,6 @@ int main(void)
 //        	if (screenSpaceCamera.zoom > 3.0f) screenSpaceCamera.zoom = 3.0f;
 //        	else if (screenSpaceCamera.zoom < 0.25f) screenSpaceCamera.zoom = 0.25f;
 //
-//			TraceLog(LOG_INFO, TextFormat("Zoom: %i", screenSpaceCamera.zoom));
 //		}
 //
 		//screenSpaceCamera.target.x = player->position.x;
@@ -251,13 +259,17 @@ int main(void)
             BeginMode2D(screenSpaceCamera);
 				DrawTexture(TextureList::textureMap["level1bg"], 0, 0, WHITE);
 				player->DrawPlayer();
+				if (bDebug)
+				{
+					DrawRectangleLinesEx(player->GetHitBoxLoc(), 1, DB32_GREEN);	
+				}
 
 
 				//Draw a debug dot to represent shoot direction.
-				if (bDebug)
-				{
 					Vector2 weaponExitPosition = player->currentWeapon->WeaponExitPosition(player->position, player->shootDirection);
 					DrawRectangle(weaponExitPosition.x, weaponExitPosition.y, 3, 3, DB32_GREEN);
+				if (bDebug)
+				{
 				}
 
 				for (Bullet* bullet : BulletList::bullets)
@@ -268,6 +280,11 @@ int main(void)
 				for (Enemy* enemy : EnemyList::enemys)
 				{
 					enemy->Draw();
+					if (bDebug)
+					{
+						DrawRectangleLinesEx(enemy->GetHitBoxLoc(), 1, DB32_RED);	
+						DrawRectangleLinesEx(enemy->GetAttackBoxLoc(), 1, DB32_GREEN);	
+					}
 				}
 				DrawTexture(TextureList::textureMap["topdoor"], 280, 0, WHITE);
 				DrawTexture(TextureList::textureMap["leftdoor"], 0, 195, WHITE);
