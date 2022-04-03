@@ -25,6 +25,8 @@ class Enemy {
 		void SetMoveTarget(Vector2 position);
 		int width = 20;
 		int height = 50;
+		float speed = 1.5f;
+		float diagnolSpeed;
 		EnemyMode mode;
 };
 

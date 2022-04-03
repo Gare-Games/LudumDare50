@@ -6,6 +6,7 @@ Enemy::Enemy(Vector2 startPosition, Player* target)
 	position.y = startPosition.y;
 	player = target;
 	mode = EnemyMode::CHASE;
+	diagnolSpeed = GareGames::ConvertToDiagnol(speed);
 }
 void Enemy::Update(float frameTime)
 {
@@ -15,14 +16,56 @@ void Enemy::Update(float frameTime)
 		case EnemyMode::CHASE:
 			if (position.x != player->position.x || position.y != player->position.y)
 			{
+				bool up = false;
+				bool down = false;
+				bool left = false;
+				bool right = false;
+				
 				if (position.x < player->position.x)
-					position.x++;
+					right = true;
 				if (position.x > player->position.x)
-					position.x--;
+					left = true;
 				if (position.y < player->position.y)
-					position.y++;
+					down = true;
 				if (position.y > player->position.y)
-					position.y--;
+					up = true;
+
+				if (up && right)
+				{
+					position.x += diagnolSpeed;
+					position.y -= diagnolSpeed;
+				}
+				else if (up && left)
+				{
+					position.x -= diagnolSpeed;
+					position.y -= diagnolSpeed;
+				}
+				else if (down && right)
+				{
+					position.x += diagnolSpeed;
+					position.y += diagnolSpeed;
+				}
+				else if (down && left)
+				{
+					position.x -= diagnolSpeed;
+					position.y += diagnolSpeed;
+				}
+				else if (up)
+				{
+					position.y -= diagnolSpeed;
+				}
+				else if (down)
+				{
+					position.y += diagnolSpeed;
+				}
+				else if (right)
+				{
+					position.x += diagnolSpeed;
+				}
+				else if (left)
+				{
+					position.x -= diagnolSpeed;
+				}
 			}
 			break;
 		case EnemyMode::MOVETO:
