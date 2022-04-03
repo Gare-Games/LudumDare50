@@ -10,17 +10,19 @@ Enemy::Enemy(Vector2 startPosition, Player* target)
 }
 void Enemy::Update(float frameTime)
 {
+	bool up = false;
+	bool down = false;
+	bool left = false;
+	bool right = false;
+
+	float xDiff;
+	float yDiff;
 	// MODE: CHASE
 	switch (mode)
 	{
 		case EnemyMode::CHASE:
 			if (position.x != player->position.x || position.y != player->position.y)
 			{
-				bool up = false;
-				bool down = false;
-				bool left = false;
-				bool right = false;
-				
 				if (position.x < player->position.x)
 					right = true;
 				if (position.x > player->position.x)
@@ -29,7 +31,127 @@ void Enemy::Update(float frameTime)
 					down = true;
 				if (position.y > player->position.y)
 					up = true;
+				Move(up, down, left, right);
 
+			}
+			break;
+		case EnemyMode::MOVETO:
+				if (position.x < targetMove.x)
+					right = true;
+				if (position.x > targetMove.x)
+					left = true;
+				if (position.y < targetMove.y)
+					down = true;
+				if (position.y > targetMove.y)
+					up = true;
+
+				if (up && right)
+				{
+					if ((targetMove.x - position.x) < diagnolSpeed)
+						position.x = targetMove.x;
+					else
+						position.x += diagnolSpeed;
+					if (position.y - targetMove.y > diagnolSpeed)
+					{
+						position.y = targetMove.y;
+					}
+					else
+						position.y -= diagnolSpeed;
+				}
+				else if (up && left)
+				{
+					if ((position.x - targetMove.x) < diagnolSpeed)
+					{
+						
+						position.x = targetMove.x;
+					}
+					else
+						position.x -= diagnolSpeed;
+					if (position.y - targetMove.y > diagnolSpeed)
+					{
+						position.y = targetMove.y;
+					}
+					else
+						position.y -= diagnolSpeed;
+				}
+				else if (down && right)
+				{
+					if ((targetMove.x - position.x) < diagnolSpeed)
+						position.x = targetMove.x;
+					else
+						position.x += diagnolSpeed;
+					if (targetMove.y - position.y > diagnolSpeed)
+					{
+						position.y = targetMove.y;
+					}
+					else
+						position.y += diagnolSpeed;
+				}
+				else if (down && left)
+				{
+					if ((targetMove.x - position.x) < diagnolSpeed)
+						position.x = targetMove.x;
+					else
+						position.x += diagnolSpeed;
+					if (targetMove.y - position.y > diagnolSpeed)
+					{
+						position.y = targetMove.y;
+					}
+					else
+						position.y += diagnolSpeed;
+				}
+				else if (up)
+				{
+					
+					if (position.y - targetMove.y < speed)
+					{
+						position.y = targetMove.y;
+					}
+					else
+						position.y -= speed;
+				}
+				else if (down)
+				{
+					if (targetMove.y - position.y < speed)
+					{
+						position.y = targetMove.y;
+					}
+					else
+						position.y += speed;
+				}
+				else if (right)
+				{
+					if ((targetMove.x - position.x) < speed)
+					{
+						
+						position.x = targetMove.x;
+					}
+					else
+						position.x += speed;
+				}
+				else if (left)
+				{
+					if ((position.x - targetMove.x) < speed)
+					{
+						
+						position.x = targetMove.x;
+					}
+					else
+						position.x -= speed;
+				}
+
+				if (!(up || down || left || right))
+				{
+					mode = EnemyMode::CHASE;
+				}
+			break;
+	}
+	// MODE: Stumble
+	
+}
+
+void Enemy::Move(bool up, bool down, bool left, bool right)
+{
 				if (up && right)
 				{
 					position.x += diagnolSpeed;
@@ -66,27 +188,6 @@ void Enemy::Update(float frameTime)
 				{
 					position.x -= diagnolSpeed;
 				}
-			}
-			break;
-		case EnemyMode::MOVETO:
-			
-			if (position.x == targetMove.x && position.y == targetMove.y)
-				mode = EnemyMode::CHASE;
-			else
-			{
-				if (position.x < targetMove.x)
-					position.x++;
-				if (position.x > targetMove.x)
-					position.x--;
-				if (position.y < targetMove.y)
-					position.y++;
-				if (position.y > targetMove.y)
-					position.y--;
-			}
-			break;
-	}
-	// MODE: Stumble
-	
 }
 void Enemy::SetMoveTarget(Vector2 position)
 {

@@ -61,7 +61,7 @@ void SpawnJob::Update(float frameTime)
 				case EnemyType::Main:
 					Enemy* enemy = new Enemy(vector, GlobalVars::player);
 					enemy->mode= EnemyMode::MOVETO;
-					enemy->targetMove = targetMove;
+					enemy->SetMoveTarget(targetMove);
 					EnemyList::AddEnemy(enemy);
 					spawned++;
 					break;

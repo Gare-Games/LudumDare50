@@ -19,6 +19,7 @@ class Enemy {
 		bool bDead = false;
 		void Update(float frameTime);
 		void Draw();
+		void Move(bool up, bool down, bool left, bool right);
 		Texture2D GetTexture2D();
 		Player* player;
 		Rectangle GetHitBoxLoc();
