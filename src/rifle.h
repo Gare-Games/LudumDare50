@@ -5,6 +5,9 @@
 #include "player.h"
 #include "garegames.h"
 #include <algorithm>
+#include "bulletlist.h"
+#include "soundlist.h"
+#include "globalvars.h"
 
 using namespace std;
 

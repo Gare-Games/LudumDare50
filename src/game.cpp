@@ -102,7 +102,7 @@ void Initialize()
 	player = new Player();
 	player->position = (Vector2) { screenWidth/2.0f, screenHeight/2.0f };
 	player->currentWeapon = new Pistol(player);
-	//player->defaultWeapon = player->currentWeapon;
+	player->defaultWeapon = player->currentWeapon;
 	player->shootDirection = Direction::DOWN;
 	player->moveDirection = Direction::DOWN;
 	GlobalVars::player = player;

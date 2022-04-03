@@ -1,8 +1,4 @@
 #include "rifle.h"
-#include "bulletlist.h"
-#include "soundlist.h"
-#include "garegames.h"
-
 
 Rifle::Rifle(Player* playerInput)
 {
@@ -54,6 +50,11 @@ void Rifle::Trigger()
 
 void Rifle::Update(float frameTime)
 {
+	if (rounds == 0)
+	{
+		// Don't reload. Switch em back to pistol
+		GlobalVars::player->currentWeapon = GlobalVars::player->defaultWeapon;
+	}
 	shotTimer = max(0.0f, shotTimer-frameTime);
 	reloadTimer = max(0.0f, reloadTimer-frameTime);
 	if (reloadTimer == 0.0f && rounds == 0)
