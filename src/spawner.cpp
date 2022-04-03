@@ -86,6 +86,16 @@ void SpawnJob::Update(float frameTime)
 					EnemyList::AddEnemy(enemy);
 					spawned++;
 					break;
+				case EnemyType::Fast:
+					enemy = new FastEnemy(vector, GlobalVars::player);
+					enemy->hitpoints = 1.0f;
+					enemy->speed = 2.5f;
+					enemy->diagnolSpeed = GareGames::ConvertToDiagnol(enemy->speed);
+					enemy->mode= EnemyMode::MOVETO;
+					enemy->SetMoveTarget(targetMove);
+					EnemyList::AddEnemy(enemy);
+					spawned++;
+					break;
 				case EnemyType::ITEM_Cash:
 					item = new Cash();
 					item->textureName = "cash";

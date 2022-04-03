@@ -10,6 +10,7 @@ list<pair<string, string>> TextureList::textureNameDir(
 			{"player", "resources/player.png"},
 			{"enemy", "resources/enemy.png"},
 			{"enemy2", "resources/enemy2.png"},
+			{"enemy3", "resources/enemy3.png"},
 			{"level1bg", "resources/level1bg.png"},
 			{"leftdoor", "resources/leftdoor.png"},
 			{"rightdoor", "resources/rightdoor.png"},

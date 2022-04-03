@@ -5,17 +5,21 @@
 #include "enemylist.h"
 #include "itemlist.h"
 #include "globalvars.h"
-#include "enemy.h"
 #include "item.h"
 #include "cash.h"
 #include "rifleitem.h"
+
+#include "enemy.h"
 #include "toughenemy.h"
+#include "fastenemy.h"
+
 #include "garegames.h"
 
 // Spawn anything.
 enum class EnemyType { 
 	Main, 
 	Tough,
+	Fast,
 	ITEM_Rifle,
 	ITEM_Cash,
 	ITEM_PistolDmg,

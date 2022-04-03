@@ -112,25 +112,39 @@ void Initialize()
 	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::LEFT, -1, 2.0f, 1.5f);
 	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::RIGHT, -1, 2.0f, 1.5f);
 
-	//level1->AddSpawnJob(EnemyType::ITEM_Cash, SpawnLocation::RIGHT, -1, 2.0f, 1.5f);
-	level1->AddSpawnJob(EnemyType::ITEM_Rifle, SpawnLocation::RIGHT, -1, 2.0f, 1.5f);
+	level1->AddSpawnJob(EnemyType::ITEM_Cash, SpawnLocation::RIGHT, -1, 9.0f, 10.0f);
 
 	// Introduce first new baddie here.
-	level1->AddSpawnJob(EnemyType::Tough, SpawnLocation::RIGHT, -1, 20.0f, 4.5f);
-	level1->AddSpawnJob(EnemyType::Tough, SpawnLocation::LEFT, -1, 22.0f, 4.5f);
+	level1->AddSpawnJob(EnemyType::Tough, SpawnLocation::RIGHT, -1, 20.0f, 6.0f);
+	level1->AddSpawnJob(EnemyType::Tough, SpawnLocation::LEFT, -1, 22.0f, 6.0f);
 
+	level1->AddSpawnJob(EnemyType::ITEM_Rifle, SpawnLocation::RIGHT, -1, 27.0f, 6.0f);
 
-	level1->AddSpawnJob(EnemyType::Tough, SpawnLocation::DOWN, -1, 35.0f, 6.0f);
+	level1->AddSpawnJob(EnemyType::Tough, SpawnLocation::DOWN, -1, 40.0f, 6.0f);
 
 	// Probably should spawn an item here.
 
 
-	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::UP, -1, 40.0f, 3.0f);
-	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::DOWN, -1, 60.0f, 4.5f);
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::UP, -1, 45.0f, 3.0f);
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::DOWN, -1, 65.0f, 4.5f);
 
 	level1->AddSpawnJob(EnemyType::Tough, SpawnLocation::UP, -1, 90.0f, 6.0f);
 
+
 	// Introduce second baddie here.
+	level1->AddSpawnJob(EnemyType::Fast, SpawnLocation::UP, -1, 95.0f, 10.0f);
+	level1->AddSpawnJob(EnemyType::Fast, SpawnLocation::DOWN, -1, 125.0f, 10.0f);
+	level1->AddSpawnJob(EnemyType::Fast, SpawnLocation::LEFT, -1, 165.0f, 10.0f);
+	level1->AddSpawnJob(EnemyType::Fast, SpawnLocation::RIGHT, -1, 245.0f, 10.0f);
+	level1->AddSpawnJob(EnemyType::Fast, SpawnLocation::UP, -1, 365.0f, 10.0f);
+	level1->AddSpawnJob(EnemyType::Fast, SpawnLocation::DOWN, -1, 425.0f, 10.0f);
+	level1->AddSpawnJob(EnemyType::Fast, SpawnLocation::LEFT, -1, 485.0f, 10.0f);
+	level1->AddSpawnJob(EnemyType::Fast, SpawnLocation::RIGHT, -1, 565.0f, 10.0f);
+	level1->AddSpawnJob(EnemyType::Fast, SpawnLocation::UP, -1, 525.0f, 10.0f);
+	level1->AddSpawnJob(EnemyType::Fast, SpawnLocation::DOWN, -1, 525.0f, 10.0f);
+
+
+	//Finish. Little time left now.
 
 }
 
