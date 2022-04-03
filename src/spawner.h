@@ -3,8 +3,11 @@
 
 #include "raylib.h"
 #include "enemylist.h"
+#include "itemlist.h"
 #include "globalvars.h"
 #include "enemy.h"
+#include "item.h"
+#include "cash.h"
 #include "toughenemy.h"
 #include "garegames.h"
 

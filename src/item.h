@@ -5,6 +5,7 @@
 #include "texturelist.h"
 #include "garegames.h"
 #include "globalvars.h"
+#include <string>
 
 class Item
 {
