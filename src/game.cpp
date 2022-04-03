@@ -112,7 +112,8 @@ void Initialize()
 	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::LEFT, -1, 2.0f, 1.5f);
 	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::RIGHT, -1, 2.0f, 1.5f);
 
-	level1->AddSpawnJob(EnemyType::ITEM_Cash, SpawnLocation::RIGHT, -1, 2.0f, 1.5f);
+	//level1->AddSpawnJob(EnemyType::ITEM_Cash, SpawnLocation::RIGHT, -1, 2.0f, 1.5f);
+	level1->AddSpawnJob(EnemyType::ITEM_Rifle, SpawnLocation::RIGHT, -1, 2.0f, 1.5f);
 
 	// Introduce first new baddie here.
 	level1->AddSpawnJob(EnemyType::Tough, SpawnLocation::RIGHT, -1, 20.0f, 4.5f);

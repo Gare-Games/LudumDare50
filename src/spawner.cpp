@@ -93,6 +93,13 @@ void SpawnJob::Update(float frameTime)
 					item->position.y = GetRandomValue(50, 500);
 					ItemList::AddItem(item);
 					break;
+				case EnemyType::ITEM_Rifle:
+					item = new RifleItem();
+					item->textureName = "rifle";
+					item->position.x = GetRandomValue(50, 700);
+					item->position.y = GetRandomValue(50, 500);
+					ItemList::AddItem(item);
+					break;
 			}
 			intervalTimer = interval;
 

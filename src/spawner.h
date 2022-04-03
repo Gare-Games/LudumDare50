@@ -8,6 +8,7 @@
 #include "enemy.h"
 #include "item.h"
 #include "cash.h"
+#include "rifle.h"
 #include "toughenemy.h"
 #include "garegames.h"
 
