@@ -3,7 +3,7 @@
 
 void Cash::GetItem()
 {
-	GlobalVars::score + 50;
+	GlobalVars::score = GlobalVars::score + 50;
 	bDead = true;
-	//PlaySound(SoundList.soundmap["getCash"]);
+	PlaySound(SoundList::soundMap["getCash"]);
 }

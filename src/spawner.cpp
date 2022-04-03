@@ -63,6 +63,7 @@ void SpawnJob::Update(float frameTime)
 			}
 
 			Enemy* enemy;
+			Item* item;
 			switch (enemyType)
 			{
 				default:
@@ -84,6 +85,13 @@ void SpawnJob::Update(float frameTime)
 					enemy->SetMoveTarget(targetMove);
 					EnemyList::AddEnemy(enemy);
 					spawned++;
+					break;
+				case EnemyType::ITEM_Cash:
+					item = new Cash();
+					item->textureName = "cash";
+					item->position.x = GetRandomValue(50, 700);
+					item->position.y = GetRandomValue(50, 500);
+					ItemList::AddItem(item);
 					break;
 			}
 			intervalTimer = interval;

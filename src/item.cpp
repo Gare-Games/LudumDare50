@@ -1,5 +1,8 @@
 #include "item.h"
 
+Item::Item() {}
+Item::~Item() {}
+
 void Item::Update(float frameTime)
 {
 	if(!bDead)
@@ -19,5 +22,13 @@ void Item::Draw()
 
 Texture2D Item::GetTexture2D()
 {
-	return TextureList::textureMap["player"]; 
+	return TextureList::textureMap[textureName]; 
+}
+Rectangle Item::GetHitBoxLoc()
+{
+	return {position.x, position.y, 32, 32};
+}
+
+void Item::GetItem()
+{
 }

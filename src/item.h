@@ -3,6 +3,7 @@
 
 #include "raylib.h"
 #include "texturelist.h"
+#include "soundlist.h"
 #include "garegames.h"
 #include "globalvars.h"
 #include <string>
@@ -10,6 +11,8 @@
 class Item
 {
 	public:
+		Item();
+		virtual ~Item();
 		Vector2 position;
 		virtual void GetItem();
 		void Update(float frameTime);
@@ -18,6 +21,7 @@ class Item
 		bool bDead = false;
 		string textureName;
 		Texture2D GetTexture2D();
+		Rectangle GetHitBoxLoc();
 
 };
 

@@ -8,6 +8,7 @@ list<pair<string, string>> SoundList::soundNameDir(
 			{"blockEnd", "resources/blockEnd.wav"},
 			{"death", "resources/death.wav"},
 			{"sizzle", "resources/sizzle.wav"},
+			{"getCash", "resources/coin.wav"},
 		});
 
 void SoundList::Initialize()

@@ -169,6 +169,11 @@ int main(void)
 			enemy->Update(thisFrameTime);
 		}
 
+		for (Item* item : ItemList::items)
+		{
+			item->Update(thisFrameTime);
+		}
+
 
 		// Check collisions here.
 		for (Enemy* enemy : EnemyList::enemys)
@@ -197,6 +202,7 @@ int main(void)
 
 		EnemyList::CleanUp();
 		BulletList::CleanUp();
+		ItemList::CleanUp();
 
 		//Check for collision with player == death!
 		for (Enemy* enemy : EnemyList::enemys)
@@ -208,6 +214,15 @@ int main(void)
 				{
 					GameOver();
 				}
+			}
+		}
+
+		//Check for collision with player. Trigger collection
+		for (Item* item : ItemList::items)
+		{
+			if (Collision::RectWithRect(item->GetHitBoxLoc(), player->GetHitBoxLoc()))
+			{
+				item->GetItem();	
 			}
 		}
 
@@ -283,6 +298,12 @@ int main(void)
 
             BeginMode2D(screenSpaceCamera);
 				DrawTexture(TextureList::textureMap["level1bg"], 0, 0, WHITE);
+				// Draw Item List
+				for (Item* item : ItemList::items)
+				{
+					item->Draw();
+				}
+
 				player->DrawPlayer();
 				if (bDebug)
 				{
@@ -311,6 +332,8 @@ int main(void)
 						DrawRectangleLinesEx(enemy->GetAttackBoxLoc(), 1, DB32_GREEN);	
 					}
 				}
+
+
 				DrawTexture(TextureList::textureMap["topdoor"], 280, 0, WHITE);
 				DrawTexture(TextureList::textureMap["leftdoor"], 0, 195, WHITE);
 				DrawTexture(TextureList::textureMap["rightdoor"], 759, 195, WHITE);
@@ -364,6 +387,7 @@ void ResetGame()
 {
 	EnemyList::Clear();
 	BulletList::Clear();
+	ItemList::Clear();
 	bGameOver = false;
 	level1->Reset();
 	player->position = (Vector2) { screenWidth/2.0f, screenHeight/2.0f };
