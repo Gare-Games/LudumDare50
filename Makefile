@@ -22,13 +22,22 @@ obj:
 	test ! -d obj && mkdir obj
 
 Exe : obj/game.o
-	$(CC) obj/game.o obj/enemylist.o obj/enemy.o obj/soundlist.o obj/bulletlist.o obj/bullet.o obj/pistol.o obj/weapon.o obj/texturelist.o obj/player.o obj/dialog.o obj/collision.o obj/mouse.o obj/garegames.o obj/colors.o -o $(OUTPUTFILE) $(HEADFILESPATH) $(LIBSHARPATH) $(LINKPATHS) 
+	$(CC) obj/game.o obj/spawner.o obj/globalvars.o obj/level.o obj/enemylist.o obj/enemy.o obj/soundlist.o obj/bulletlist.o obj/bullet.o obj/pistol.o obj/weapon.o obj/texturelist.o obj/player.o obj/dialog.o obj/collision.o obj/mouse.o obj/garegames.o obj/colors.o -o $(OUTPUTFILE) $(HEADFILESPATH) $(LIBSHARPATH) $(LINKPATHS) 
 
-obj/game.o : src/game.cpp obj/enemylist.o obj/enemy.o obj/soundlist.o obj/bulletlist.o obj/bullet.o obj/pistol.o obj/weapon.o obj/texturelist.o obj/player.o obj/dialog.o obj/collision.o obj/mouse.o obj/garegames.o obj/colors.o
+obj/game.o : src/game.cpp obj/spawner.o obj/globalvars.o obj/level.o obj/enemylist.o obj/enemy.o obj/soundlist.o obj/bulletlist.o obj/bullet.o obj/pistol.o obj/weapon.o obj/texturelist.o obj/player.o obj/dialog.o obj/collision.o obj/mouse.o obj/garegames.o obj/colors.o
 	$(CC) src/game.cpp -c -o obj/game.o $(HEADFILESPATH) $(LIBSHARPATH) $(LINKPATHS) 
 
 obj/colors.o : src/colors.cpp src/colors.h
 	$(CC) src/colors.cpp -c -o obj/colors.o $(HEADFILESPATH) $(LIBSHARPATH) $(LINKPATHS) 
+
+obj/spawner.o : src/spawner.cpp src/spawner.h
+	$(CC) src/spawner.cpp -c -o obj/spawner.o $(HEADFILESPATH) $(LIBSHARPATH) $(LINKPATHS) 
+
+obj/globalvars.o : src/globalvars.cpp src/globalvars.h
+	$(CC) src/globalvars.cpp -c -o obj/globalvars.o $(HEADFILESPATH) $(LIBSHARPATH) $(LINKPATHS) 
+
+obj/level.o : src/level.cpp src/level.h
+	$(CC) src/level.cpp -c -o obj/level.o $(HEADFILESPATH) $(LIBSHARPATH) $(LINKPATHS) 
 
 obj/bullet.o : src/bullet.cpp src/bullet.h
 	$(CC) src/bullet.cpp -c -o obj/bullet.o $(HEADFILESPATH) $(LIBSHARPATH) $(LINKPATHS) 

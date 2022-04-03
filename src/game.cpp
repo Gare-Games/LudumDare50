@@ -16,6 +16,9 @@
 #include "soundlist.h"
 #include "enemy.h"
 #include "enemylist.h"
+#include "spawner.h"
+#include "level.h"
+#include "globalVars.h"
 
 #define GL_SRC_ALPHA 0x0302
 #define GL_MIN 0x8007
@@ -30,6 +33,8 @@ Camera2D screenSpaceCamera; // Smoothing camera
 Texture2D* houseTexture;
 Texture2D* hqTexture;
 Texture2D* playerTexture;
+
+Level* level1;
 
 RenderTexture2D fogOfWarTexture;
 
@@ -93,12 +98,22 @@ void Initialize()
 	player->currentWeapon = new Pistol(player);
 	player->shootDirection = Direction::DOWN;
 	player->moveDirection = Direction::DOWN;
+	GlobalVars::player = player;
+
+	level1 = new Level();
+
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::LEFT, 5, 2.0f, 1.0f);
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::UP, 5, 0.5f, 1.0f);
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::RIGHT, 5, 1.5f, 1.0f);
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::DOWN, 5, 1.0f, 1.0f);
 }
 
 int main(void)
 {
 
 	Initialize();
+
+	level1->Start();
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -115,6 +130,8 @@ int main(void)
 		//	screenHeight = GetScreenHeight();
 		//	screenSpaceCamera.offset = (Vector2) { screenWidth/2.0f, screenHeight/2.0f };
 		//}
+
+		level1->Update(thisFrameTime);
 
 		Mouse::Update();
 		player->currentWeapon->Update(thisFrameTime);
