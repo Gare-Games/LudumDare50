@@ -13,6 +13,8 @@ SpawnJob::SpawnJob(EnemyType enemyType, SpawnLocation location, int amount, floa
 }
 void SpawnJob::Update(float frameTime)
 {
+	if(bDone) return;
+
 	if(!bStart)
 	{
 		startTimer = max(0.0f, startTimer-frameTime);
@@ -23,13 +25,10 @@ void SpawnJob::Update(float frameTime)
 		}
 		else
 		{
-			TraceLog(LOG_INFO, "Spawner Waiting");
 		}
 	}
 	else
 	{
-		TraceLog(LOG_INFO, "Attempting to sapwn Enemy");
-		TraceLog(LOG_INFO, "Player: %f %f", GlobalVars::player->position.x, GlobalVars::player->position.y);
 		intervalTimer = max(0.0f, intervalTimer-frameTime);
 
 		if (intervalTimer == 0.0f)
@@ -57,10 +56,12 @@ void SpawnJob::Update(float frameTime)
 				case EnemyType::Main:
 					Enemy* enemy = new Enemy(vector, GlobalVars::player);
 					EnemyList::AddEnemy(enemy);
-					TraceLog(LOG_INFO, "Enemy Spawned");
+					spawned++;
 					break;
 			}
 			intervalTimer = interval;
+
+			if (spawned == amount) bDone = true;
 		}
 	}
 }

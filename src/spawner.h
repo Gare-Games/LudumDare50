@@ -24,11 +24,13 @@ class SpawnJob
 		EnemyType enemyType;
 		SpawnLocation location;
 		int amount;
+		int spawned = 0;
 		float startTimer;
 		float startTime;
 		float intervalTimer;
 		float interval;
 		bool bStart = false;
+		bool bDone = false;
 		void Update(float frameTime);
 };
 
