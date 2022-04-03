@@ -9,3 +9,7 @@ void Weapon::Update(float frameTime)
 void Weapon::DrawWeapon()
 {
 }
+Vector2 Weapon::WeaponExitPosition(Vector2 position, Direction shootDirection)
+{
+	return {position.x, position.y};
+}

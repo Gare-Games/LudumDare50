@@ -14,6 +14,7 @@ class BulletList {
 		static vector<Bullet*> bullets;
 		static void RemoveBullet();
 		static void AddBullet(Bullet* bullet);
+		static void CleanUp();
 	private:
 };
 

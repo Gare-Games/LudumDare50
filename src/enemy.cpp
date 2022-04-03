@@ -26,8 +26,7 @@ void Enemy::Update(float frameTime)
 
 void Enemy::Draw()
 {
-	if (!bDead)
-		DrawTexture(GetTexture2D(), position.x , position.y, WHITE);
+	DrawTexture(GetTexture2D(), position.x , position.y, WHITE);
 }
 
 Texture2D Enemy::GetTexture2D()
@@ -36,5 +35,5 @@ Texture2D Enemy::GetTexture2D()
 }
 Rectangle Enemy::GetHitBoxLoc()
 {
-	return {position.x, position.y, width, height};
+	return {position.x+5, position.y+ 10, width-10, 40};
 }

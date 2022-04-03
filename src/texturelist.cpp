@@ -9,6 +9,11 @@ list<pair<string, string>> TextureList::textureNameDir(
 			{"bottomUIRSide", "resources/bottomUIRSide.png"},
 			{"player", "resources/player.png"},
 			{"enemy", "resources/enemy.png"},
+			{"level1bg", "resources/level1bg.png"},
+			{"leftdoor", "resources/leftdoor.png"},
+			{"rightdoor", "resources/rightdoor.png"},
+			{"topdoor", "resources/topdoor.png"},
+			{"bottomdoor", "resources/bottomdoor.png"},
 		});
 
 void TextureList::Initialize()

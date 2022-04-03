@@ -8,7 +8,7 @@ Bullet::Bullet(Vector2 startPosition, Direction targetDirection)
 	direction = targetDirection;
 	width = 5;
 	height = 5;
-	speed = 5.0f;
+	speed = 5.5f;
 	diagnolSpeed = GareGames::ConvertToDiagnol(speed);
 }
 

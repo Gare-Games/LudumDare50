@@ -146,6 +146,9 @@ int main(void)
 			}
 		}
 
+		EnemyList::CleanUp();
+		BulletList::CleanUp();
+
 		// Mouse Wheel Camera Zoom
 //		if (GetMouseWheelMove() != 0)
 //		{
@@ -219,65 +222,38 @@ int main(void)
 			// Draw what you can see.
 
             BeginMode2D(screenSpaceCamera);
-				DrawRectangle(50,140, 50, 60, DB32_RED);
-				DrawRectangle(50,40, 50, 60, DB32_RED);
-				DrawRectangle(150,140, 50, 60, DB32_RED);
-				DrawRectangle(150,40, 50, 60, DB32_RED);
+				DrawTexture(TextureList::textureMap["level1bg"], 0, 0, WHITE);
 				player->DrawPlayer();
 
 
 				//Draw a debug dot to represent shoot direction.
 				if (bDebug)
 				{
-					switch(player->shootDirection)
-					{
-						case Direction::UP:
-							DrawRectangle(player->position.x, player->position.y - 30, 3, 3, DB32_GREEN);
-							break;
-						case Direction::DOWN:
-							DrawRectangle(player->position.x, player->position.y + 30, 3, 3, DB32_GREEN);
-							break;
-						case Direction::DOWNLEFT:
-							DrawRectangle(player->position.x-30, player->position.y + 30, 4, 5, DB32_GREEN);
-							break;
-						case Direction::DOWNRIGHT:
-							DrawRectangle(player->position.x+30, player->position.y + 30, 3, 5, DB32_GREEN);
-							break;
-						case Direction::UPLEFT:
-							DrawRectangle(player->position.x-30, player->position.y - 30, 3, 3, DB32_GREEN);
-							break;
-						case Direction::UPRIGHT:
-							DrawRectangle(player->position.x+30, player->position.y - 30, 3, 3, DB32_GREEN);
-							break;
-						case Direction::LEFT:
-							DrawRectangle(player->position.x-30, player->position.y, 3, 3, DB32_GREEN);
-							break;
-						case Direction::RIGHT:
-							DrawRectangle(player->position.x+30, player->position.y, 3, 3, DB32_GREEN);
-							break;
-					}
+					Vector2 weaponExitPosition = player->currentWeapon->WeaponExitPosition(player->position, player->shootDirection);
+					DrawRectangle(weaponExitPosition.x, weaponExitPosition.y, 3, 3, DB32_GREEN);
 				}
 
 				for (Bullet* bullet : BulletList::bullets)
 				{
-					if(bullet->bDead) continue;
 					bullet->Draw();
 				}
 
 				for (Enemy* enemy : EnemyList::enemys)
 				{
-					if(enemy->bDead) continue;
 					enemy->Draw();
 				}
+				DrawTexture(TextureList::textureMap["topdoor"], 280, 0, WHITE);
+				DrawTexture(TextureList::textureMap["leftdoor"], 0, 195, WHITE);
+				DrawTexture(TextureList::textureMap["rightdoor"], 763, 195, WHITE);
+				DrawTexture(TextureList::textureMap["bottomdoor"], 280, 558, WHITE);
             EndMode2D();
 
 
 			// Gui on top of screen
 			// Maybe draw to texture?
-			DrawRectangle(0,0, screenWidth, 60, DB32_BLACK);
-			GareGames::DrawTextureRect(TextureList::textureMap["bottomUIFill1"], 0, 0, screenWidth, 100, DB32_WHITE);
-			GareGames::DrawTextureRect(TextureList::textureMap["bottomUILSide"], 0, 0, 15, 100, DB32_WHITE);
-			GareGames::DrawTextureRect(TextureList::textureMap["bottomUIRSide"], screenWidth - 15, 0, 15, 100, DB32_WHITE);
+			//GareGames::DrawTextureRect(TextureList::textureMap["bottomUIFill1"], 0, -15, screenWidth, 100, DB32_WHITE);
+			//GareGames::DrawTextureRect(TextureList::textureMap["bottomUILSide"], 0, -15, 15, 100, DB32_WHITE);
+			//GareGames::DrawTextureRect(TextureList::textureMap["bottomUIRSide"], screenWidth - 15, -15, 15, 100, DB32_WHITE);
 
 
 			//Draw you windows here.

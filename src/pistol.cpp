@@ -1,6 +1,7 @@
 #include "pistol.h"
 #include "bulletlist.h"
 #include "soundlist.h"
+#include "garegames.h"
 
 
 Pistol::Pistol(Player* playerInput)
@@ -27,7 +28,7 @@ void Pistol::Trigger()
 		shotTimer = shotCooldown;
 		rounds--;
 		// Spawn bullet at player location.
-		Bullet* bullet = new Bullet({player->position.x, player->position.y}, player->shootDirection);
+		Bullet* bullet = new Bullet(WeaponExitPosition(player->position, player->shootDirection), player->shootDirection);
 
 		BulletList::AddBullet(bullet);
 
@@ -59,4 +60,29 @@ void Pistol::Update(float frameTime)
 
 void Pistol::DrawWeapon()
 {
+}
+
+Vector2 Pistol::WeaponExitPosition(Vector2 position, Direction shootDirection)
+{
+	switch(shootDirection)
+	{
+		case Direction::LEFT:
+			return {position.x + 0, position.y + 13};
+		case Direction::RIGHT:
+			return {position.x + 18, position.y + 13};
+		case Direction::UP:
+			return {position.x + 9, position.y + 1};
+		case Direction::DOWN:
+			return {position.x + 9, position.y + 25};
+		case Direction::UPLEFT:
+			return {position.x + 2, position.y + 7};
+		case Direction::UPRIGHT:
+			return {position.x + 16, position.y + 7};
+		case Direction::DOWNLEFT:
+			return {position.x + 2, position.y + 19};
+		case Direction::DOWNRIGHT:
+			return {position.x + 16, position.y + 19};
+		default:
+			return position;
+	}
 }
