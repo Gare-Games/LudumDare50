@@ -7,6 +7,7 @@ Enemy::Enemy(Vector2 startPosition, Player* target)
 	player = target;
 	mode = EnemyMode::CHASE;
 	diagnolSpeed = GareGames::ConvertToDiagnol(speed);
+	hitpoints = 1.0f;
 }
 void Enemy::Update(float frameTime)
 {
@@ -51,7 +52,7 @@ void Enemy::Update(float frameTime)
 						position.x = targetMove.x;
 					else
 						position.x += diagnolSpeed;
-					if (position.y - targetMove.y > diagnolSpeed)
+					if (position.y - targetMove.y < diagnolSpeed)
 					{
 						position.y = targetMove.y;
 					}
@@ -67,7 +68,7 @@ void Enemy::Update(float frameTime)
 					}
 					else
 						position.x -= diagnolSpeed;
-					if (position.y - targetMove.y > diagnolSpeed)
+					if (position.y - targetMove.y < diagnolSpeed)
 					{
 						position.y = targetMove.y;
 					}
@@ -80,7 +81,7 @@ void Enemy::Update(float frameTime)
 						position.x = targetMove.x;
 					else
 						position.x += diagnolSpeed;
-					if (targetMove.y - position.y > diagnolSpeed)
+					if (targetMove.y - position.y < diagnolSpeed)
 					{
 						position.y = targetMove.y;
 					}
@@ -93,7 +94,7 @@ void Enemy::Update(float frameTime)
 						position.x = targetMove.x;
 					else
 						position.x += diagnolSpeed;
-					if (targetMove.y - position.y > diagnolSpeed)
+					if (targetMove.y - position.y < diagnolSpeed)
 					{
 						position.y = targetMove.y;
 					}
@@ -152,42 +153,42 @@ void Enemy::Update(float frameTime)
 
 void Enemy::Move(bool up, bool down, bool left, bool right)
 {
-				if (up && right)
-				{
-					position.x += diagnolSpeed;
-					position.y -= diagnolSpeed;
-				}
-				else if (up && left)
-				{
-					position.x -= diagnolSpeed;
-					position.y -= diagnolSpeed;
-				}
-				else if (down && right)
-				{
-					position.x += diagnolSpeed;
-					position.y += diagnolSpeed;
-				}
-				else if (down && left)
-				{
-					position.x -= diagnolSpeed;
-					position.y += diagnolSpeed;
-				}
-				else if (up)
-				{
-					position.y -= diagnolSpeed;
-				}
-				else if (down)
-				{
-					position.y += diagnolSpeed;
-				}
-				else if (right)
-				{
-					position.x += diagnolSpeed;
-				}
-				else if (left)
-				{
-					position.x -= diagnolSpeed;
-				}
+	if (up && right)
+	{
+		position.x += diagnolSpeed;
+		position.y -= diagnolSpeed;
+	}
+	else if (up && left)
+	{
+		position.x -= diagnolSpeed;
+		position.y -= diagnolSpeed;
+	}
+	else if (down && right)
+	{
+		position.x += diagnolSpeed;
+		position.y += diagnolSpeed;
+	}
+	else if (down && left)
+	{
+		position.x -= diagnolSpeed;
+		position.y += diagnolSpeed;
+	}
+	else if (up)
+	{
+		position.y -= diagnolSpeed;
+	}
+	else if (down)
+	{
+		position.y += diagnolSpeed;
+	}
+	else if (right)
+	{
+		position.x += diagnolSpeed;
+	}
+	else if (left)
+	{
+		position.x -= diagnolSpeed;
+	}
 }
 void Enemy::SetMoveTarget(Vector2 position)
 {
@@ -204,7 +205,16 @@ Texture2D Enemy::GetTexture2D()
 {
 	return TextureList::textureMap["enemy"]; 
 }
+
 Rectangle Enemy::GetHitBoxLoc()
 {
 	return {position.x+5, position.y+ 10, width-10, 40};
+}
+
+void Enemy::TakeDamage(float amount)
+{
+	TraceLog(LOG_INFO, "Hitpoints: %f", hitpoints);
+	hitpoints -= amount;
+	if (hitpoints <= 0.0f)
+		bDead = true;
 }

@@ -4,10 +4,13 @@
 #include "raylib.h"
 #include "enemylist.h"
 #include "globalvars.h"
+#include "enemy.h"
+#include "toughenemy.h"
 
 
 enum class EnemyType { 
-	Main = 1 
+	Main = 1, 
+	Tough = 2 
 };
 
 enum class SpawnLocation { 

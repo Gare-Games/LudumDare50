@@ -15,6 +15,7 @@ class Bullet {
 		Direction direction;
 		float speed;
 		float diagnolSpeed;
+		float damage = 1.0f;
 		void Update(float frameTime);
 		void Draw();
 		Rectangle GetHitBoxLoc();

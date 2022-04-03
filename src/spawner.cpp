@@ -55,11 +55,21 @@ void SpawnJob::Update(float frameTime)
 					break;
 			}
 
+			Enemy* enemy;
 			switch (enemyType)
 			{
 				default:
 				case EnemyType::Main:
-					Enemy* enemy = new Enemy(vector, GlobalVars::player);
+					enemy = new Enemy(vector, GlobalVars::player);
+					enemy->mode= EnemyMode::MOVETO;
+					enemy->SetMoveTarget(targetMove);
+					EnemyList::AddEnemy(enemy);
+					spawned++;
+					break;
+				case EnemyType::Tough:
+					TraceLog(LOG_INFO, "This occurred");
+					enemy = new ToughEnemy(vector, GlobalVars::player);
+					enemy->hitpoints = 2.0f;
 					enemy->mode= EnemyMode::MOVETO;
 					enemy->SetMoveTarget(targetMove);
 					EnemyList::AddEnemy(enemy);

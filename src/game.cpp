@@ -45,6 +45,7 @@ bool bLeftMouseLast = false;
 bool bDebug = true;
 int mouseXLast = -1;
 int mouseYLast = -1;
+long score = 0;
 
 int moveToX = 0;
 int moveToY = 0;
@@ -102,15 +103,17 @@ void Initialize()
 
 	level1 = new Level();
 
-	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::LEFT, -1, 2.0f, 1.0f);
-	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::UP, 5, 0.5f, 1.0f);
-	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::RIGHT, 5, 1.5f, 1.0f);
-	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::DOWN, 5, 1.0f, 1.0f);
+//	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::LEFT, -1, 2.0f, 1.0f);
+//	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::UP, 5, 0.5f, 1.0f);
+//	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::RIGHT, 5, 1.5f, 1.0f);
+//	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::DOWN, 5, 1.0f, 1.0f);
 
-	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::LEFT, 5, 40.0f, 1.0f);
-	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::UP, 7, 30.5f, 1.0f);
-	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::RIGHT, 30, 5.5f, 1.0f);
-	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::DOWN, 3, 45.0f, 1.0f);
+	level1->AddSpawnJob(EnemyType::Tough, SpawnLocation::RIGHT, 7, 1.5f, 1.0f);
+	level1->AddSpawnJob(EnemyType::Tough, SpawnLocation::LEFT, 7, 1.5f, 1.0f);
+//	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::LEFT, 15, 40.0f, 1.0f);
+//	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::UP, 15, 30.5f, 1.0f);
+//	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::RIGHT, 30, 5.5f, 1.0f);
+//	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::DOWN, 30, 45.0f, 1.0f);
 }
 
 int main(void)
@@ -161,8 +164,10 @@ int main(void)
 				if(bullet->bDead) continue;
 				if (Collision::RectWithRect(enemy->GetHitBoxLoc(), bullet->GetHitBoxLoc()))
 				{
-					enemy->bDead = true;
 					bullet->bDead = true;
+					enemy->TakeDamage(bullet->damage);
+					if (enemy->bDead)
+						score += 5;
 					break;
 				}
 			}
@@ -284,8 +289,9 @@ int main(void)
 				Dialog::GetActiveDialog()->DrawDialog();
 			}
 			
-            DrawText(TextFormat("AMMO: %i", player->currentWeapon->rounds), 10, 10, 20, DB32_RED);
-            DrawFPS(GetScreenWidth() - 95, 10);
+            DrawText(TextFormat("AMMO: %i", player->currentWeapon->rounds), 10, 5, 20, DB32_RED);
+			DrawText(TextFormat("SCORE: %i", score), GetScreenWidth()-200, 5, 20, DB32_GREEN);
+            //DrawFPS(GetScreenWidth() - 95, 10);
         EndDrawing();
         //----------------------------------------------------------------------------------
     }
