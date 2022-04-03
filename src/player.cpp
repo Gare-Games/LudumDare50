@@ -18,40 +18,104 @@ Texture2D Player::GetTexture2D()
 
 void Player::Move()
 {
+	bool moveFirst = false;
+	bool moveSecond = false;
 	if (moveDirection == Direction::UP)
 	{
-		position.y -= speed;
+		if (position.y > 5)
+			position.y -= speed;
 	}
 	else if (moveDirection == Direction::DOWN)
 	{
-		position.y += speed;
+		if (position.y < 527)
+			position.y += speed;
 	}
 	else if (moveDirection == Direction::LEFT)
 	{
-		position.x -= speed;
+		if (position.x > 24)
+			position.x -= speed;
 	}
 	else if (moveDirection == Direction::RIGHT)
 	{
-		position.x += speed;
+		if (position.x < 758)
+			position.x += speed;
 	}
 	else if (moveDirection == Direction::DOWNLEFT)
 	{
-		position.x -= diagnolSpeed;
-		position.y += diagnolSpeed;
+		if (position.x > 24) moveFirst = true;
+		if (position.y < 527) moveSecond = true;
+
+		if (moveFirst && !moveSecond)
+		{
+			position.x -= speed;
+		}
+		else if(!moveFirst && moveSecond)
+		{
+			position.y += speed;
+		}
+		else if (moveFirst && moveSecond)
+		{
+			position.x -= diagnolSpeed;
+			position.y += diagnolSpeed;
+		}
+			
+
 	}
 	else if (moveDirection == Direction::DOWNRIGHT)
 	{
-		position.x += diagnolSpeed;
-		position.y += diagnolSpeed;
+		if (position.x < 758) moveFirst = true;
+		if (position.y < 527) moveSecond = true;
+
+		if (moveFirst && !moveSecond)
+		{
+			position.x += speed;
+		}
+		else if(!moveFirst && moveSecond)
+		{
+			position.y += speed;
+		}
+		else if (moveFirst && moveSecond)
+		{
+			position.x += diagnolSpeed;
+			position.y += diagnolSpeed;
+		}
 	}
 	else if (moveDirection == Direction::UPLEFT)
 	{
-		position.x -= diagnolSpeed;
-		position.y -= diagnolSpeed;
+		if (position.x > 24) moveFirst = true;
+		if (position.y > 5) moveSecond = true;
+
+		if (moveFirst && !moveSecond)
+		{
+			position.x -= speed;
+		}
+		else if(!moveFirst && moveSecond)
+		{
+			position.y -= speed;
+		}
+		else if (moveFirst && moveSecond)
+		{
+			position.x -= diagnolSpeed;
+			position.y -= diagnolSpeed;
+		}
 	}
 	else if (moveDirection == Direction::UPRIGHT)
 	{
-		position.x += diagnolSpeed;
-		position.y -= diagnolSpeed;
+		if (position.x < 758) moveFirst = true;
+		if (position.y > 5) moveSecond = true;
+
+		if (moveFirst && !moveSecond)
+		{
+			position.x += speed;
+		}
+		else if(!moveFirst && moveSecond)
+		{
+			position.y -= speed;
+		}
+		else if (moveFirst && moveSecond)
+		{
+			position.x += diagnolSpeed;
+			position.y -= diagnolSpeed;
+		}
 	}
 }

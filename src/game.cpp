@@ -102,10 +102,15 @@ void Initialize()
 
 	level1 = new Level();
 
-	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::LEFT, 5, 2.0f, 1.0f);
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::LEFT, -1, 2.0f, 1.0f);
 	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::UP, 5, 0.5f, 1.0f);
 	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::RIGHT, 5, 1.5f, 1.0f);
 	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::DOWN, 5, 1.0f, 1.0f);
+
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::LEFT, 5, 40.0f, 1.0f);
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::UP, 7, 30.5f, 1.0f);
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::RIGHT, 30, 5.5f, 1.0f);
+	level1->AddSpawnJob(EnemyType::Main, SpawnLocation::DOWN, 3, 45.0f, 1.0f);
 }
 
 int main(void)

@@ -34,19 +34,24 @@ void SpawnJob::Update(float frameTime)
 		if (intervalTimer == 0.0f)
 		{
 			Vector2 vector = {0,0};
+			Vector2 targetMove = {0,0};
 			switch (location)
 			{
 				case SpawnLocation::LEFT:
 					vector = {3.0f,285.0f};
+					targetMove = {80.0f,285.0f};
 					break;
 				case SpawnLocation::RIGHT:
 					vector = {797.0f,285.0f};
+					targetMove = {717.0f,285.0f};
 					break;
 				case SpawnLocation::UP:
 					vector = {415.0f,3.0f};
+					targetMove = {415.0f,73.0f};
 					break;
 				case SpawnLocation::DOWN:
 					vector = {415.0f,597.0f};
+					targetMove = {415.0f,527.0f};
 					break;
 			}
 
@@ -55,6 +60,8 @@ void SpawnJob::Update(float frameTime)
 				default:
 				case EnemyType::Main:
 					Enemy* enemy = new Enemy(vector, GlobalVars::player);
+					enemy->mode= EnemyMode::MOVETO;
+					enemy->targetMove = targetMove;
 					EnemyList::AddEnemy(enemy);
 					spawned++;
 					break;
