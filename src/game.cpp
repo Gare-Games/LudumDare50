@@ -266,7 +266,7 @@ int main(void)
 				}
 				DrawTexture(TextureList::textureMap["topdoor"], 280, 0, WHITE);
 				DrawTexture(TextureList::textureMap["leftdoor"], 0, 195, WHITE);
-				DrawTexture(TextureList::textureMap["rightdoor"], 763, 195, WHITE);
+				DrawTexture(TextureList::textureMap["rightdoor"], 759, 195, WHITE);
 				DrawTexture(TextureList::textureMap["bottomdoor"], 280, 558, WHITE);
             EndMode2D();
 
