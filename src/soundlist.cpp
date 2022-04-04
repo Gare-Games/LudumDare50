@@ -49,6 +49,8 @@ void SoundList::LoadSoundInternal(string name, string path)
 
 	if (soundMap.find(name) != soundMap.end()) bExists = true;
 
+	SetSoundVolume(sound, 0.10f);
+
 	soundMap.insert(pair<string, Sound>(name.c_str(), sound));
 
 	if (bExists)
