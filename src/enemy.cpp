@@ -208,12 +208,12 @@ Texture2D Enemy::GetTexture2D()
 
 Rectangle Enemy::GetHitBoxLoc()
 {
-	return {position.x+5, position.y+ 10, width-10, 30};
+	return {position.x+5, position.y+ 10, static_cast<float>(width-10), 30};
 }
 
 Rectangle Enemy::GetAttackBoxLoc()
 {
-	return {position.x+5, position.y+ 25, width-10, 15};
+	return {position.x+5, position.y+ 25, static_cast<float>(width-10), 15};
 }
 
 void Enemy::TakeDamage(float amount)

@@ -22,9 +22,9 @@ obj:
 	test ! -d obj && mkdir obj
 
 Exe : obj/game.o
-	$(CC) obj/game.o obj/fastenemy.o obj/rifleitem.o obj/itemlist.o obj/item.o obj/cash.o obj/rifle.o obj/toughenemy.o obj/spawner.o obj/globalvars.o obj/level.o obj/enemylist.o obj/enemy.o obj/soundlist.o obj/bulletlist.o obj/bullet.o obj/pistol.o obj/weapon.o obj/texturelist.o obj/player.o obj/dialog.o obj/collision.o obj/mouse.o obj/garegames.o obj/colors.o -o $(OUTPUTFILE) $(HEADFILESPATH) $(LIBSHARPATH) $(LINKPATHS) $(CFLAGS)
+	$(CC) obj/game.o obj/fastenemy.o obj/rifleitem.o obj/itemlist.o obj/item.o obj/cash.o obj/rifle.o obj/toughenemy.o obj/spawner.o obj/globalvars.o obj/level.o obj/enemylist.o obj/enemy.o obj/soundlist.o obj/bulletlist.o obj/bullet.o obj/pistol.o obj/weapon.o obj/texturelist.o obj/player.o obj/collision.o obj/mouse.o obj/garegames.o obj/colors.o -o $(OUTPUTFILE) $(HEADFILESPATH) $(LIBSHARPATH) $(LINKPATHS) $(CFLAGS)
 
-obj/game.o : src/game.cpp obj/fastenemy.o obj/rifleitem.o obj/itemlist.o obj/cash.o obj/item.o obj/rifle.o obj/toughenemy.o obj/spawner.o obj/globalvars.o obj/level.o obj/enemylist.o obj/enemy.o obj/soundlist.o obj/bulletlist.o obj/bullet.o obj/pistol.o obj/weapon.o obj/texturelist.o obj/player.o obj/dialog.o obj/collision.o obj/mouse.o obj/garegames.o obj/colors.o
+obj/game.o : src/game.cpp obj/fastenemy.o obj/rifleitem.o obj/itemlist.o obj/cash.o obj/item.o obj/rifle.o obj/toughenemy.o obj/spawner.o obj/globalvars.o obj/level.o obj/enemylist.o obj/enemy.o obj/soundlist.o obj/bulletlist.o obj/bullet.o obj/pistol.o obj/weapon.o obj/texturelist.o obj/player.o obj/collision.o obj/mouse.o obj/garegames.o obj/colors.o
 	$(CC) src/game.cpp -c -o obj/game.o $(HEADFILESPATH) $(LIBSHARPATH) $(LINKPATHS) 
 
 obj/fastenemy.o : src/fastenemy.cpp src/fastenemy.h
@@ -87,9 +87,6 @@ obj/player.o : src/player.cpp src/player.h
 obj/enemy.o : src/enemy.cpp src/enemy.h
 	$(CC) src/enemy.cpp -c -o obj/enemy.o $(HEADFILESPATH) $(LIBSHARPATH) $(LINKPATHS) 
 
-obj/dialog.o : src/dialog.cpp src/dialog.h
-	$(CC) src/dialog.cpp -c -o obj/dialog.o $(HEADFILESPATH) $(LIBSHARPATH) $(LINKPATHS) 
-
 obj/collision.o : src/collision.cpp src/collision.h
 	$(CC) src/collision.cpp -c -o obj/collision.o $(HEADFILESPATH) $(LIBSHARPATH) $(LINKPATHS) 
 
@@ -102,6 +99,9 @@ obj/garegames.o : src/garegames.cpp src/garegames.h
 Clean : 
 	$(RM) game.exe
 	$(RM) game.out
+	$(RM) game.data
+	$(RM) game.html
+	$(RM) game.wasm
 	$(RM) obj/*
 	$(RM) bin/*
 	test ! -d obj || rmdir obj

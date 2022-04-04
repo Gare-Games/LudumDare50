@@ -4,7 +4,6 @@
 
 #include "texturelist.h"
 #include "player.h"
-#include "dialog.h"
 #include "mouse.h"
 #include "garegames.h"
 #include "collision.h"
@@ -255,12 +254,6 @@ int main(void)
 		//screenSpaceCamera.target.x = player->position.x;
 		//screenSpaceCamera.target.y = player->position.y;
 
-		//Update your windows.
-		if (Dialog::IsDialogActive())
-		{
-			Dialog::GetActiveDialog()->Update();
-		}
-
 		// Better have an in order list of what occurs.
 		// Keyboard Controls
 		if (IsKeyPressed(KEY_F)) bDebug = !bDebug;
@@ -368,13 +361,6 @@ int main(void)
 			//GareGames::DrawTextureRect(TextureList::textureMap["bottomUILSide"], 0, -15, 15, 100, DB32_WHITE);
 			//GareGames::DrawTextureRect(TextureList::textureMap["bottomUIRSide"], screenWidth - 15, -15, 15, 100, DB32_WHITE);
 
-
-			//Draw you windows here.
-			if (Dialog::IsDialogActive())
-			{
-				Dialog::GetActiveDialog()->DrawDialog();
-			}
-			
             DrawText(TextFormat("AMMO: %i", player->currentWeapon->rounds), 40, 5, 20, DB32_GREEN);
 			DrawText(TextFormat("SCORE: %i", GlobalVars::score), GetScreenWidth()-200, 5, 20, DB32_GREEN);
 			DrawText(TextFormat("ALIVE TIME: %.2f", timeSurvived), GetScreenWidth()-470, 5, 20, DB32_GREEN);

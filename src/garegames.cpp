@@ -26,15 +26,15 @@ void GareGames::DrawTextureRect(Texture2D texture, Vector2 position, int width, 
 
 	for (int j = 0; j < repeatCntY; j++)
 	{
-		DrawTextureRec(texture, {0,0,extraX,texture.height}, {position.x + (repeatCntX*texture.width), position.y + (j*texture.height)}, tint);
+		DrawTextureRec(texture, {0,0,static_cast<float>(extraX),static_cast<float>(texture.height)}, {position.x + (repeatCntX*texture.width), position.y + (j*texture.height)}, tint);
 	}
 
 	for (int i = 0; i < repeatCntX; i++)
 	{
-		DrawTextureRec(texture, {0,0,texture.width,extraY}, {position.x + (i*texture.width), position.y + (repeatCntY*texture.height)}, tint);
+		DrawTextureRec(texture, {0,0,static_cast<float>(texture.width),static_cast<float>(extraY)}, {position.x + (i*texture.width), position.y + (repeatCntY*texture.height)}, tint);
 	}
 
-	DrawTextureRec(texture, {0,0,extraX,extraY}, {position.x + (repeatCntX*texture.width), position.y + (repeatCntY*texture.height)}, tint);
+	DrawTextureRec(texture, {0,0, static_cast<float>(extraX), static_cast<float>(extraY)}, {position.x + (repeatCntX*texture.width), position.y + (repeatCntY*texture.height)}, tint);
 }
 void GareGames::DrawTextureRect(Texture2D texture, float posX, float posY, int width, int height, Color tint)
 {

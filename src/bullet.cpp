@@ -62,5 +62,5 @@ void Bullet::Draw()
 }
 Rectangle Bullet::GetHitBoxLoc()
 {
-	return {position.x, position.y, width, height};
+	return {position.x, position.y, static_cast<float>(width), static_cast<float>(height)};
 }
