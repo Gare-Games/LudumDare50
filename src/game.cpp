@@ -418,4 +418,5 @@ void ResetGame()
 	GlobalVars::score = 0;
 	level1->Start();
 	timeSurvived = 0;
+	infoTimer = 6.0f;
 }
