@@ -19,7 +19,7 @@
 #include "itemlist.h"
 #include "spawner.h"
 #include "level.h"
-#include "globalVars.h"
+#include "globalvars.h"
 
 #define GL_SRC_ALPHA 0x0302
 #define GL_MIN 0x8007
