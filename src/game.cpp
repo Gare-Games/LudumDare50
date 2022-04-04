@@ -48,6 +48,7 @@ bool bLeftMouseLast = false;
 bool bDebug = false;
 int mouseXLast = -1;
 int mouseYLast = -1;
+float infoTimer = 6.0f;
 
 int moveToX = 0;
 int moveToY = 0;
@@ -160,6 +161,7 @@ int main(void)
     {
 		lastFrameTime = thisFrameTime;
 		thisFrameTime = GetFrameTime();
+		infoTimer = max(0.0f, infoTimer-thisFrameTime);
 
         // Update
         //----------------------------------------------------------------------------------
@@ -313,6 +315,10 @@ int main(void)
 
             BeginMode2D(screenSpaceCamera);
 				DrawTexture(TextureList::textureMap["level1bg"], 0, 0, WHITE);
+				if(infoTimer > 0)
+				{
+					DrawTexture(TextureList::textureMap["keypad"], 400, 50, WHITE);
+				}
 				// Draw Item List
 				for (Item* item : ItemList::items)
 				{

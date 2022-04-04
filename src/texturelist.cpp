@@ -18,6 +18,7 @@ list<pair<string, string>> TextureList::textureNameDir(
 			{"bottomdoor", "resources/bottomdoor.png"},
 			{"cash", "resources/cash.png"},
 			{"rifle", "resources/rifle.png"},
+			{"keypad", "resources/keypadinfo.png"},
 		});
 
 void TextureList::Initialize()
