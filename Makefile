@@ -1,10 +1,15 @@
 CC = g++
 
+BUILD_MODE ?= DEBUG
+
 ifeq ($(OS),Windows_NT)
+	CFLAGS = 
+ifeq ($(BUILD_MODE),RELEASE)
 	CFLAGS = -Wl,--subsystem,windows
-		LINKPATHS = -lraylib -lopengl32 -lgdi32 -lwinmm
-		OUTPUTFILE = game.exe
-		LIBSHARPATH = -L lib
+endif
+	LINKPATHS = -lraylib -lopengl32 -lgdi32 -lwinmm
+	OUTPUTFILE = game.exe
+	LIBSHARPATH = -L lib
 else
 	UNAME_S := $(shell uname -s)
 		ifeq ($(UNAME_S),Linux)
@@ -13,6 +18,7 @@ else
 			LIBSHARPATH = -L liblinux
 		endif
 endif
+
 
 
 HEADFILESPATH = -I include/

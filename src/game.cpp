@@ -260,37 +260,74 @@ int main(void)
 
 		if (!bGameOver)
 		{
+			if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_MIDDLE_RIGHT))
+			{
+				//PAUSE
+			}
+
 			// Move Direction
-			if (IsKeyDown(KEY_S) || IsKeyDown(KEY_W) || IsKeyDown(KEY_A) || IsKeyDown(KEY_D))
+			if (IsKeyDown(KEY_S) 
+				|| IsKeyDown(KEY_W) 
+				|| IsKeyDown(KEY_A) 
+				|| IsKeyDown(KEY_D)
+				|| IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_DOWN)
+				|| IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_RIGHT)
+				|| IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_UP)
+				|| IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_LEFT)
+				)
 			{
 				if (IsKeyDown(KEY_S) && IsKeyDown(KEY_D)) player->moveDirection = Direction::DOWNRIGHT;
+				else if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_DOWN) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_RIGHT)) player->moveDirection = Direction::DOWNRIGHT;
 				else if (IsKeyDown(KEY_S) && IsKeyDown(KEY_A)) player->moveDirection = Direction::DOWNLEFT;
+				else if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_DOWN) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_LEFT)) player->moveDirection = Direction::DOWNLEFT;
 				else if (IsKeyDown(KEY_W) && IsKeyDown(KEY_D)) player->moveDirection = Direction::UPRIGHT;
+				else if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_UP) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_RIGHT)) player->moveDirection = Direction::UPRIGHT;
 				else if (IsKeyDown(KEY_W) && IsKeyDown(KEY_A)) player->moveDirection = Direction::UPLEFT;
+				else if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_UP) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_LEFT)) player->moveDirection = Direction::UPLEFT;
 				else if (IsKeyDown(KEY_W)) player->moveDirection = Direction::UP;
+				else if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_UP)) player->moveDirection = Direction::UP;
 				else if (IsKeyDown(KEY_A)) player->moveDirection = Direction::LEFT;
+				else if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_LEFT)) player->moveDirection = Direction::LEFT;
 				else if (IsKeyDown(KEY_S)) player->moveDirection = Direction::DOWN;
+				else if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_DOWN)) player->moveDirection = Direction::DOWN;
 				else if (IsKeyDown(KEY_D)) player->moveDirection = Direction::RIGHT;
+				else if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_RIGHT)) player->moveDirection = Direction::RIGHT;
 				player->Move();
 			}
 
 			// Shoot Direction
-			if (IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_UP) || IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_RIGHT))
+			if (IsKeyDown(KEY_DOWN) 
+				|| IsKeyDown(KEY_UP) 
+				|| IsKeyDown(KEY_LEFT) 
+				|| IsKeyDown(KEY_RIGHT)
+				|| IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN)
+				|| IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT)
+				|| IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_UP)
+				|| IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_LEFT)
+				)
 			{
 				if (IsKeyDown(KEY_DOWN) && IsKeyDown(KEY_RIGHT)) player->shootDirection = Direction::DOWNRIGHT;
+				else if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT)) player->shootDirection = Direction::DOWNRIGHT;
 				else if (IsKeyDown(KEY_DOWN) && IsKeyDown(KEY_LEFT)) player->shootDirection = Direction::DOWNLEFT;
+				else if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_LEFT)) player->shootDirection = Direction::DOWNLEFT;
 				else if (IsKeyDown(KEY_UP) && IsKeyDown(KEY_RIGHT)) player->shootDirection = Direction::UPRIGHT;
+				else if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_UP) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT)) player->shootDirection = Direction::UPRIGHT;
 				else if (IsKeyDown(KEY_UP) && IsKeyDown(KEY_LEFT)) player->shootDirection = Direction::UPLEFT;
+				else if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_UP) && IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_LEFT)) player->shootDirection = Direction::UPLEFT;
 				else if (IsKeyDown(KEY_UP)) player->shootDirection = Direction::UP;
+				else if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_UP)) player->shootDirection = Direction::UP;
 				else if (IsKeyDown(KEY_LEFT)) player->shootDirection = Direction::LEFT;
+				else if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_LEFT)) player->shootDirection = Direction::LEFT;
 				else if (IsKeyDown(KEY_DOWN)) player->shootDirection = Direction::DOWN;
+				else if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN)) player->shootDirection = Direction::DOWN;
 				else if (IsKeyDown(KEY_RIGHT)) player->shootDirection = Direction::RIGHT;
+				else if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT)) player->shootDirection = Direction::RIGHT;
 				player->currentWeapon->Trigger();
 			}
 		}
 		else
 		{
-			if (IsKeyPressed(KEY_R)) 
+			if (IsKeyPressed(KEY_R) || IsGamepadButtonDown(0, GAMEPAD_BUTTON_MIDDLE_RIGHT))
 			{
 				// Reset Function;
 				ResetGame();
