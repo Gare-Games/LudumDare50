@@ -265,6 +265,17 @@ int main(void)
 				//PAUSE
 			}
 
+			int xAxis = (int) (GetGamepadAxisMovement(0, GAMEPAD_AXIS_LEFT_X) * 20);
+			int yAxis = (int) (GetGamepadAxisMovement(0, GAMEPAD_AXIS_LEFT_Y) * 20);
+
+			xAxis = (xAxis <=3 && xAxis > 0) ? 0 : xAxis;
+			xAxis = (xAxis >=-3 && xAxis < 0) ? 0 : xAxis;
+
+			yAxis = (yAxis <=3 && yAxis > 0) ? 0 : yAxis;
+			yAxis = (yAxis >=-3 && yAxis < 0) ? 0 : yAxis;
+
+			TraceLog(LOG_INFO, "X: %i Y: %i", xAxis, yAxis);
+
 			// Move Direction
 			if (IsKeyDown(KEY_S) 
 				|| IsKeyDown(KEY_W) 
